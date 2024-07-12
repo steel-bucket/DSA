@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+long long int reverse(long long int x) {
+    long long int buffer = x;
+    long long int result = 0;
+    while (buffer > 0) {
+        if (result > LLONG_MAX / 10 || result < LLONG_MIN / 10) return 0;
+        long long int digit = buffer % 10;
+        result = result * 10 + digit;
+        buffer /= 10;
+    }
+    return result;
+}
+
+bool isPalindrome(long long int x) {
+    if (x < 0) return false;
+    if (x == reverse(x)) return true;
+    return false;
+}
+
+int main() {
+    cout << isPalindrome(1000000001) << endl;
+    return 0;
+}

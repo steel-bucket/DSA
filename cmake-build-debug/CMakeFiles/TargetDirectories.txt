@@ -1,0 +1,3 @@
+/home/artemis/CLionProjects/salary/cmake-build-debug/CMakeFiles/salary.dir
+/home/artemis/CLionProjects/salary/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/artemis/CLionProjects/salary/cmake-build-debug/CMakeFiles/rebuild_cache.dir
