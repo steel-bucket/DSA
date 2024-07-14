@@ -3,10 +3,14 @@
 
 using namespace std;
 
-void printvector(vector<int> myVector) {
+void printvectorfunction(vector<int> myVector) {
     copy(myVector.begin(), myVector.end(), ostream_iterator<int>(cout, " "));
 }
-
+void swapfunction(int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int evenlyDivides(int N) {
     int buffer = N;
@@ -107,11 +111,7 @@ vector<long long> factorialNumbers(long long n) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void swap(int &a, int &b) {
-    int temp = a;
-    a = b;
-    b = temp;
-}
+
 
 void reverseArray(vector<int> &array, int index = 0) {
     if (index != array.size() / 2) {
@@ -151,4 +151,124 @@ bool isPalindrome(string s) {
     s = clean(s);
     return isStringPalindrome(s);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void selectionSort(int arr[], int n) {
+    for(int i =0;i<n;i++) {
+        int smallest= INT_MAX;
+        int smallestindex= INT_MAX;
+        for(int j=i;j<n;j++) {
+            if(arr[j]<smallest) {
+                smallest = arr[j];
+                smallestindex=j;
+            }
+        }
+        swap(arr[smallestindex], arr[i]);
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        int didSwap = 0;
+        for (int j = 0; j < n-i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+                didSwap = 1;
+            }
+        }
+        if (didSwap == 0) {
+            break;
+        }
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void insertionSort(int arr[], int n) {
+    for (int i = 0; i < n-1; i++) {
+        int endpointer = i + 1;
+        for (int j = endpointer; j > 0; j--) {
+            if (arr[j] < arr[j - 1]) {
+                swap(arr[j - 1], arr[j]);
+            }
+        }
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void merge(int arr[], int l, int m, int r) {
+    int pointer1 = l;
+    int pointer2 = m + 1;
+    vector<int> arr2;
+    while (pointer1 <= m && pointer2 <= r) {
+        if (arr[pointer2] >= arr[pointer1]) {
+            arr2.push_back(arr[pointer1]);
+            pointer1++;
+        } else {
+            arr2.push_back(arr[pointer2]);
+            pointer2++;
+        }
+    }
+    while (pointer1 <= m) {
+        arr2.push_back(arr[pointer1]);
+        pointer1++;
+    }
+    while (pointer2 <= r) {
+        arr2.push_back(arr[pointer2]);
+        pointer2++;
+    }
+    for (int i = l; i <= r; i++) {
+        arr[i] = arr2[i - l];
+    }
+}
+
+void mergeSort(int arr[], int l, int r) {
+    if (l >= r)return;
+    int m = l + (r - l) / 2;
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+    merge(arr, l, m, r);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void bubbleSortRecursive(int arr[], int n, int i, int j) {
+    if (i == n)return;
+    if (j == n - i - 1)bubbleSortRecursive(arr, n, i + 1, 0);
+    else if (arr[j] > arr[j + 1]) {
+        swap(arr[j], arr[j + 1]);
+        bubbleSortRecursive(arr, n, i, j + 1);
+    }
+    else {
+        bubbleSortRecursive(arr, n, i, j + 1);
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int print2largest(vector<int> &arr) {
+    if (arr.empty())return -1;
+    int largest = -1;
+    int secondlargest = -1;
+    for (auto &it: arr) {
+        if (it > largest) {
+            secondlargest = largest;
+            largest = it;
+        }
+        else if (it > secondlargest && it != largest) {
+            secondlargest = it;
+        }
+    }
+    return secondlargest;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool checkforrotatedsortedarray(vector<int> &nums) {
+    int size = nums.size();
+    bool theswitch = false;
+    for (int i = 0; i < size-1; i++) {
+        if (nums[i] > nums[i + 1] && nums[i] < nums[size - 1])return false;
+        if (nums[i] > nums[i + 1] && theswitch == true)return false;
+        if (nums[i] > nums[i + 1] && theswitch == false)theswitch = true;
+    }
+    if (nums[size-1] > nums[0] && theswitch == true)return false;
+    return true;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
