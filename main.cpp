@@ -1,17 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void quickSort(int arr[], int low, int high) {
-}
+vector<int> twoSum(vector<int> &nums, int target) {
+    int size = nums.size();
+    for (int i = 0; i < size; i++) {
+        int current = nums[i];
+        int diff = target - nums[i];
+    }
 
-int partition(int arr[], int low, int high) {
 }
 
 
 int main() {
-    vector<int> arr = {8, 1, 4, 1, 3, 9, 7};
-    for (int i: arr)cout << i << " ";
+    vector<int> nums = {2, 7, 11, 15};
+    for (int i: nums)cout << i << " ";
     cout << endl;
-
+    vector<int> ts = twoSum(nums, 9);
+    for (int i: ts)cout << i << " ";
     return 0;
 }

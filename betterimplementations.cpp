@@ -118,3 +118,35 @@ void bubbleSortRecursiveBetter(int arr[], int n) {
     bubbleSortRecursiveBetter(arr, n - 1);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+int getLongestSubarray(vector<int> &a, long long k) {
+    int n = a.size();
+    map<long long, int> preSumMap;
+    long long sum = 0;
+    int maxLen = 0;
+    for (int i = 0; i < n; i++) {
+        sum += a[i];
+        cout << "Round :" << i << endl;
+        cout << "This is a[i] :" << a[i] << endl;
+        cout << "This is sum :" << sum << endl;
+        if (sum == k) {
+            maxLen = max(maxLen, i + 1);
+            cout << "We're increasin maxLen. This is maxLen :" << maxLen << endl;
+        }
+        long long rem = sum - k;
+        cout << "This is rem :" << rem << endl;
+        if (preSumMap.find(rem) != preSumMap.end()) {
+            int len = i - preSumMap[rem];
+            cout << "preSumMap didn't found rem. This is len :" << len << endl;
+            maxLen = max(maxLen, len);
+            cout << "We're increasin maxLen. This is maxLen :" << maxLen << endl;
+        }
+        if (preSumMap.find(sum) == preSumMap.end()) {
+            preSumMap[sum] = i;
+            cout << "preSumMap found rem. This is preSumMap[sum] :" << preSumMap[sum] << endl;
+        }
+    }
+
+    return maxLen;
+}

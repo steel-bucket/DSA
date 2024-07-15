@@ -195,7 +195,7 @@ void insertionSort(int arr[], int n) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-void merge(int arr[], int l, int m, int r) {
+void mergefunction(int arr[], int l, int m, int r) {
     int pointer1 = l;
     int pointer2 = m + 1;
     vector<int> arr2;
@@ -226,7 +226,7 @@ void mergeSort(int arr[], int l, int r) {
     int m = l + (r - l) / 2;
     mergeSort(arr, l, m);
     mergeSort(arr, m + 1, r);
-    merge(arr, l, m, r);
+    mergefunction(arr, l, m, r);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -271,4 +271,114 @@ bool checkforrotatedsortedarray(vector<int> &nums) {
     return true;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int removeDuplicates(vector<int> &nums) {
+    int result = 0;
+    int pointer1 = 0;
+    int pointer2 = 1;
+    int size = nums.size();
+    while (pointer2 < size) {
+        if (nums[pointer1] != nums[pointer2]) {
+            pointer1++;
+            nums[pointer1] = nums[pointer2];
+            result++;
+        }
+        pointer2++;
+    }
+    return result + 1;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void reverseforrotate(vector<int> &nums, int start, int end) {
+    while(start<=end) {
+        swap(nums[start],nums[end]);
+        start++;
+        end--;
+    }
+}
+void rotate(vector<int> &nums, int k) {
+    int size = nums.size();
+    if(k>size)k%=size;
+    reverseforrotate(nums, 0, size - k - 1);
+    reverseforrotate(nums, size - k, size-1);
+    reverseforrotate(nums, 0, size-1);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int searchInSorted(int arr[], int N, int K) {
+    int low = 0, high = N - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] > K) {
+            high = mid-1;
+        } else if(arr[mid] < K) {
+            low = mid+1;
+        }else {
+            return 1;
+        }
+
+    }
+    return -1;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<int> findUnion(int arr1[], int arr2[], int n, int m) {
+    int pointer1 = 0;
+    int pointer2 = 0;
+    vector<int> result;
+    while (pointer1 < n && pointer2 < m) {
+        if (arr2[pointer2] > arr1[pointer1]) {
+            if (result.empty() || result.back() != arr1[pointer1]) {
+                result.push_back(arr1[pointer1]);
+            }
+            pointer1++;
+        } else {
+            if (result.empty() || result.back() != arr2[pointer2]) {
+                result.push_back(arr2[pointer2]);
+            }
+            pointer2++;
+        }
+    }
+    while (pointer1 < n) {
+        if (result.empty() || arr1[pointer1] != result.back()) {
+            result.push_back(arr1[pointer1]);
+        }
+        pointer1++;
+    }
+    while (pointer2 < m) {
+        if (result.empty() || arr2[pointer2] != result.back()) {
+            result.push_back(arr2[pointer2]);
+        }
+        // cout << endl<< "iteration "<< pointer2 << " "<<arr2[pointer2];
+        pointer2++;
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int missingNumber(vector<int> &nums) {
+    int sum =0;
+    int size = nums.size();
+    for (int i: nums)sum+=i;
+    return (((size)*(size+1))/2 - sum);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int findMaxConsecutiveOnes(vector<int> &nums) {
+    int result = 0;
+    int buffer = 0;
+    for (int i: nums) {
+        if (i == 1) {
+            buffer++;
+        } else {
+            result = max(result, buffer);
+            buffer = 0;
+        }
+    }
+    return max(result, buffer);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int singleNumber(vector<int>& nums) {
+    int result=0;
+    for (int i: nums)result^=i;
+    return result;
+
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
