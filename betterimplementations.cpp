@@ -13,6 +13,7 @@ bool isNumberPalindromeBetter(int x) {
     }
     return b == a ? true : false; // JAVASCRIPT
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 long long sumOfDivisorsBetter(int N) {
@@ -30,6 +31,7 @@ long long sumOfDivisorsBetter(int N) {
     // => 5 will occur 1 times in F(5)
     // => 6 will occur 1 times in F(6)
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool isStringPalindromeBetter(string s) {
@@ -52,6 +54,7 @@ bool isStringPalindromeBetter(string s) {
     }
     return true;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void mergeBetter(int arr[], int l, int m, int r) {
@@ -95,6 +98,7 @@ void mergeSortBetter(int arr[], int n) {
         }
     }
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void bubbleSortRecursiveBetter(int arr[], int n) {
@@ -117,6 +121,7 @@ void bubbleSortRecursiveBetter(int arr[], int n) {
     //Range reduced after recursion:
     bubbleSortRecursiveBetter(arr, n - 1);
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -150,3 +155,51 @@ int getLongestSubarray(vector<int> &a, long long k) {
 
     return maxLen;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void dutchnationalflagBetter(vector<int> &nums) {
+    int low = 0, mid = 0, high = nums.size() - 1; // 3 pointers
+
+    while (mid <= high) {
+        if (nums[mid] == 0) {
+            swap(nums[low], nums[mid]);
+            low++;
+            mid++;
+        } else if (nums[mid] == 1) {
+            mid++;
+        } else {
+            swap(nums[mid], nums[high]);
+            high--;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+vector<int> RearrangebySign(vector<int> A) {
+    int n = A.size();
+
+    // Define array for storing the ans separately.
+    vector<int> ans(n, 0);
+
+    // positive elements start from 0 and negative from 1.
+    int posIndex = 0, negIndex = 1;
+    for (int i = 0; i < n; i++) {
+        // Fill negative elements in odd indices and inc by 2.
+        if (A[i] < 0) {
+            ans[negIndex] = A[i];
+            negIndex += 2;
+        }
+
+        // Fill positive elements in even indices and inc by 2.
+        else {
+            ans[posIndex] = A[i];
+            posIndex += 2;
+        }
+    }
+
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,12 +5,17 @@ using namespace std;
 void printvector(vector<int> myVector) {
     copy(myVector.begin(), myVector.end(), ostream_iterator<int>(cout, " "));
 }
-
-vector<int> majorityElement(vector<int>& nums) {
+int subarraySum(vector<int>& nums, int k) {
 
 }
 
 
+
 int main() {
+    vector<int> nums = {1,1,1};
+    printvector(nums);
+    cout <<endl;
+    int result = subarraySum(nums, 2);
+    cout << result;
     return 0;
 }

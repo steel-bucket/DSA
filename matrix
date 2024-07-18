@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void printmatrix(vector<vector<int> > &matrix) {
+    for (const vector<int> &j: matrix) {
+        for (int i: j) { cout << i << " "; }
+        cout << endl;
+    }
+    cout << endl;
+    cout << endl;
+}
+
+void printvector(vector<int> myVector) {
+    copy(myVector.begin(), myVector.end(), ostream_iterator<int>(cout, " "));
+}
+
+
+
+int main() {
+    vector<vector<int> > nums = {
+        {1, 2, 3, 4}, {5, 6, 7, 8},
+        // {9, 10, 11, 12},{13,14,15,16}
+    };
+    printmatrix(nums);
+    cout << endl;
+    cout << endl;
+    vector<int> result = spiralOrder(nums);
+    printvector(result);
+    return 0;
+}
