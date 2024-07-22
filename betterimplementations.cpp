@@ -496,3 +496,18 @@ int numberOfInversions(vector<int>&a, int n) {
     return mergeSortforinvertion(a, 0, n - 1);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int maxProduct(vector<int> &arr) {
+    auto size = arr.size();
+    long long int prefix = 1;
+    long long int suffix = 1;
+    long long int result = INT_MIN;
+    for (int i = 0; i < size; i++) {
+        if (suffix == 0) suffix = 1;
+        if (prefix == 0) prefix = 1;
+        suffix *= arr[size - i - 1];
+        prefix *= arr[i];
+        result = max(result, max(prefix, suffix));
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
