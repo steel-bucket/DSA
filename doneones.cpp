@@ -454,7 +454,7 @@ void dutchnationalflag(vector<int> &nums) {
 int moorevoting(vector<int> &nums) {
     int count = 0;
     int buffer = nums[0];
-    for (int num : nums) {
+    for (int num: nums) {
         if (num == buffer) {
             count++;
         } else if (num != buffer && count > 0) {
@@ -466,6 +466,7 @@ int moorevoting(vector<int> &nums) {
     }
     return buffer;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int maxSubArray(vector<int> &nums) {
@@ -480,31 +481,33 @@ int maxSubArray(vector<int> &nums) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int maxProfit(vector<int> &prices) {
     int low = 0;
     int result = 0;
     int size = prices.size();
-    for(int high =0;high<size;high++) {
-        if(prices[low] > prices[high]) {
+    for (int high = 0; high < size; high++) {
+        if (prices[low] > prices[high]) {
             low = high;
         }
         result = max(result, prices[high] - prices[low]);
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 vector<int> rearrangeArray(vector<int> &nums) {
     stack<int> even;
     stack<int> odd;
     int size = nums.size();
     vector<int> result(size);
-    for (int i = size-1; i >=0; i--) {
+    for (int i = size - 1; i >= 0; i--) {
         if (nums[i] < 0)odd.push(nums[i]);
         else even.push(nums[i]);
     }
-    for(int j =0;j<size;j++) {
-        if(j%2 == 0) {
+    for (int j = 0; j < size; j++) {
+        if (j % 2 == 0) {
             int num = even.top();
             even.pop();
             result[j] = num;
@@ -516,6 +519,7 @@ vector<int> rearrangeArray(vector<int> &nums) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void reverse(vector<int> &nums, int start, int end) {
     while (start < end) {
@@ -549,21 +553,23 @@ void nextPermutation(vector<int> &nums) {
     swap(nums[breakpoint], nums[secondlargest]);
     reverse(nums, breakpoint + 1, size - 1);
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 vector<int> leaders(int n, int arr[]) {
     vector<int> result;
-    int maxi = arr[n-1];
+    int maxi = arr[n - 1];
     result.push_back(maxi);
-    if(n==1)return result;
-    for(int i = n-2;i>=0;i--) {
-        if(arr[i] > maxi) {
+    if (n == 1)return result;
+    for (int i = n - 2; i >= 0; i--) {
+        if (arr[i] > maxi) {
             result.push_back(arr[i]);
             maxi = arr[i];
         }
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setZeroes(vector<vector<int> > &matrix) {
     int m = matrix.size();
@@ -594,6 +600,7 @@ void setZeroes(vector<vector<int> > &matrix) {
     for (int i = 0; i < m; i++) if (bufferx == 0)matrix[i][0] = 0;
     for (int j = 0; j < n; j++) if (buffery == 0)matrix[0][j] = 0;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void transpose(vector<vector<int> > &matrix) {
     int m = matrix.size();
@@ -626,16 +633,27 @@ vector<int> spiralOrder(vector<vector<int> > &matrix) {
     pair<int, int> topleft = {0, 0};
     pair<int, int> bottomright = {rows - 1, cols - 1};
 
-    while (topleft.first<= bottomright.first && topleft.second <=bottomright.second) {
-        for (int i = topleft.second; i <= bottomright.second; i++)result.push_back(matrix[topleft.first][i]);topleft.first++;
-        for (int i = topleft.first; i <= bottomright.first; i++)result.push_back(matrix[i][bottomright.second]);bottomright.second--;
-        if (topleft.first <= bottomright.first) {for (int i = bottomright.second; i >= topleft.second; i--) {result.push_back(matrix[bottomright.first][i]);}bottomright.first--;}
-        if (topleft.second <= bottomright.second) {for (int i = bottomright.first; i >= topleft.first; i--) {result.push_back(matrix[i][topleft.second]);}topleft.second++;}
+    while (topleft.first <= bottomright.first && topleft.second <= bottomright.second) {
+        for (int i = topleft.second; i <= bottomright.second; i++)result.push_back(matrix[topleft.first][i]);
+        topleft.first++;
+        for (int i = topleft.first; i <= bottomright.first; i++)result.push_back(matrix[i][bottomright.second]);
+        bottomright.second--;
+        if (topleft.first <= bottomright.first) {
+            for (int i = bottomright.second; i >= topleft.second; i--) {
+                result.push_back(matrix[bottomright.first][i]);
+            }
+            bottomright.first--;
+        }
+        if (topleft.second <= bottomright.second) {
+            for (int i = bottomright.first; i >= topleft.first; i--) { result.push_back(matrix[i][topleft.second]); }
+            topleft.second++;
+        }
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int subarraySum(vector<int> &nums, int k) {
+int subarraySumfunction(vector<int> &nums, int k) {
     map<int, int> pre;
     int size = nums.size();
     int sum = 0;
@@ -658,11 +676,11 @@ int subarraySum(vector<int> &nums, int k) {
 vector<int> nextarray(vector<int> nums) {
     int size = nums.size();
     if (size == 1)return {1, 1};
-    vector<int> result(size+1);
+    vector<int> result(size + 1);
     result[0] = 1;
     result[size] = 1;
     for (int i = 1; i < size; i++) {
-        result[i] = nums[i-1] + nums[i];
+        result[i] = nums[i - 1] + nums[i];
     }
     return result;
 }
@@ -670,8 +688,241 @@ vector<int> nextarray(vector<int> nums) {
 vector<vector<int> > generatepascal(int numRows) {
     vector<vector<int> > result;
     result.push_back({1});
-    for(int i=0;i<numRows-1;i++) {
+    for (int i = 0; i < numRows - 1; i++) {
         result.push_back(nextarray(result[i]));
     }
     return result;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+vector<int> majorityElement(vector<int> &nums) {
+    int size = nums.size();
+    if (size == 1)return {nums[0]};
+    int
+            c1 = 0,
+            c2 = 0,
+            e1 = INT_MIN,
+            e2 = INT_MIN;
+    if (nums[0] == nums[1])c2++;
+    vector<int> result;
+    int satisfactory = size / 3;
+    for (int i = 0; i < size; i++) {
+        if (nums[i] == e1)c1++;
+        else if (nums[i] == e2)c2++;
+        else if (c1 == 0) {
+            e1 = nums[i];
+            c1++;
+        } else if (c2 == 0) {
+            e2 = nums[i];
+            c2++;
+        } else {
+            c1--;
+            c2--;
+        }
+    }
+
+    int c11 = 0;
+    int c22 = 0;
+    for (int i = 0; i < size; i++) {
+        if (nums[i] == e1)c11++;
+        if (nums[i] == e2)c22++;
+    }
+    if (c11 > satisfactory)result.push_back(e1);
+    if (c22 > satisfactory)result.push_back(e2);
+    if (e1 == e2)return {e1};
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<vector<int> > threeSumbruteforce(vector<int> &nums) {
+    int size = nums.size();
+    set<vector<int> > st;
+    for (int i = 0; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            for (int k = j + 1; k < size; k++) {
+                if (i != j && i != k && j != k && nums[i] + nums[j] + nums[k] == 0) {
+                    vector<int> v = {nums[i], nums[j], nums[k]};
+                    sort(v.begin(), v.end());
+                    st.insert(v);
+                }
+            }
+        }
+    }
+    vector<vector<int> > result(st.begin(), st.end());
+    return result;
+}
+
+vector<vector<int> > threeSumhashmap(vector<int> &nums) {
+    int size = nums.size();
+    set<vector<int> > resultset;
+    for (int i = 0; i < size; i++) {
+        set<int> s;
+        for (int j = i + 1; j < size; j++) {
+            int third = -1 * (nums[i] + nums[j]);
+            if (s.find(third) != s.end()) {
+                vector<int> v = {nums[i], nums[j], third};
+                sort(v.begin(), v.end());
+                resultset.insert(v);
+            }
+            s.insert(nums[j]);
+        }
+    }
+    vector<vector<int> > result(resultset.begin(), resultset.end());
+    return result;
+}
+
+vector<vector<int> > twoSumforthreesum(vector<int> &nums, int target, int start) {
+    auto size = nums.size();
+    map<int, int> numbersmap;
+    vector<vector<int> > result;
+    for (int i = start; i < size; i++) {
+        if (numbersmap.find(target - nums[i]) == numbersmap.end()) {
+            numbersmap[nums[i]] = i;
+        } else {
+            result.push_back({nums[numbersmap[target - nums[i]]], nums[i]});
+        }
+    }
+    return result;
+}
+
+
+vector<vector<int> > threeSumwithtwosum(vector<int> &nums) {
+    auto size = nums.size();
+    set<vector<int> > resultset;
+    for (int i = 0; i < size; i++) {
+        int k = -1 * (nums[i]);
+        vector<vector<int> > vec = twoSumforthreesum(nums, k, i + 1);
+        if (!vec.empty()) {
+            for (auto &j: vec) {
+                j.push_back(-k);
+                sort(j.begin(), j.end());
+                resultset.insert(j);
+
+            }
+        }
+    }
+    vector<vector<int> > result(resultset.begin(), resultset.end());
+    return result;
+}
+vector<vector<int>> triplet(int n, vector<int> &arr) {
+    vector<vector<int>> ans;
+    sort(arr.begin(), arr.end());
+    for (int i = 0; i < n; i++) {
+        //remove duplicates:
+        if (i != 0 && arr[i] == arr[i - 1]) continue;
+
+        //moving 2 pointers:
+        int j = i + 1;
+        int k = n - 1;
+        while (j < k) {
+            int sum = arr[i] + arr[j] + arr[k];
+            if (sum < 0) {
+                j++;
+            }
+            else if (sum > 0) {
+                k--;
+            }
+            else {
+                vector<int> temp = {arr[i], arr[j], arr[k]};
+                ans.push_back(temp);
+                j++;
+                k--;
+                //skip the duplicates:
+                while (j < k && arr[j] == arr[j - 1]) j++;
+                while (j < k && arr[k] == arr[k + 1]) k--;
+            }
+        }
+    }
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int LargestSubarraywith0Sum(vector<int> &arr, int n) {
+    map<int, int> pre;
+    int sum = 0;
+    int result = 0;
+    int currentlength = 0;
+    pre[0] = -1;
+    for (int i = 0; i < n; i++) {
+        sum += arr[i];
+        if (pre.find(sum) != pre.end()) {
+            currentlength = i - pre[sum];
+            result = max(result, currentlength);
+            pre[sum] = min(i, pre[sum]);
+        } else pre[sum] = i;
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<vector<int> > merge(vector<vector<int> > &intervals) {
+    std::sort(intervals.begin(), intervals.end(), [](const std::vector<int> &a, const std::vector<int> &b) {
+        return a[0] < b[0];
+    });
+    int i = 0;
+    while (true) {
+        if (i >= intervals.size() - 1) { break; }
+        if (intervals[i][1] >= intervals[i + 1][0] && intervals[i][1] <= intervals[i + 1][1]) {
+            intervals[i][1] = intervals[i + 1][1];
+            intervals.erase(intervals.begin() + i + 1);
+        } else if (intervals[i][1] >= intervals[i + 1][0] && intervals[i][1] > intervals[i + 1][1]) {
+            intervals.erase(intervals.begin() + i + 1);
+        } else i++;
+    }
+    return intervals;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<int> findTwoElement(vector<int> arr, int n) {
+    int repeating = -1;
+    int missing = -1;
+    long long nn1 = ((n) * (n + 1)) / 2;
+    long long nn12n16 = ((n) * (n + 1) * (2 * n + 1)) / 6;
+    for (auto &i: arr) {
+        nn1 -= i;
+        nn12n16 -= i * i;
+    }
+    repeating = ((nn12n16 / nn1) + (nn1)) / 2;
+    missing =(( nn12n16 / nn1) - (nn1)) / 2;
+    return {
+        missing,repeating
+    };
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void insertforinversionCount(vector<long long> &temp, long long num, long long &result, int current) {
+    int l = 0;
+    int h = temp.size() - 1;
+    int m;
+    while (l <= h) {
+        m = (l + h) / 2;
+        if (temp[m] > num) {
+            h = m - 1;
+        } else {
+            l = m + 1;
+        }
+    }
+    temp.insert(temp.begin() + l, num);
+    result += current - l;
+}
+
+long long int inversionCountbinarysearch(long long arr[], int n) {
+    vector<long long> temp;
+    long long result = 0;
+    for (int i = 0; i < n; i++) {
+        insertforinversionCount(temp, arr[i], result, i);
+    }
+    return result;
+}
+long long inversionCountMultiset(long long arr[], int n) {
+    multiset<long long> st;
+    long long result = 0;
+
+    for (int i = 0; i < n; i++) {
+        auto it = st.upper_bound(arr[i]);
+        result += distance(it, st.end());
+        st.insert(arr[i]);
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

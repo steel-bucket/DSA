@@ -203,3 +203,296 @@ vector<int> RearrangebySign(vector<int> A) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<int> majorityElementBetter(vector<int> v) {
+    int n = v.size(); //size of the array
+
+    int cnt1 = 0, cnt2 = 0; // counts
+    int el1 = INT_MIN; // element 1
+    int el2 = INT_MIN; // element 2
+
+    // applying the Extended Boyer Moore's Voting Algorithm:
+    for (int i = 0; i < n; i++) {
+        if (cnt1 == 0 && el2 != v[i]) {
+            cnt1 = 1;
+            el1 = v[i];
+        }
+        else if (cnt2 == 0 && el1 != v[i]) {
+            cnt2 = 1;
+            el2 = v[i];
+        }
+        else if (v[i] == el1) cnt1++;
+        else if (v[i] == el2) cnt2++;
+        else {
+            cnt1--, cnt2--;
+        }
+    }
+
+    vector<int> ls; // list of answers
+
+    // Manually check if the stored elements in
+    // el1 and el2 are the majority elements:
+    cnt1 = 0, cnt2 = 0;
+    for (int i = 0; i < n; i++) {
+        if (v[i] == el1) cnt1++;
+        if (v[i] == el2) cnt2++;
+    }
+
+    int mini = int(n / 3) + 1;
+    if (cnt1 >= mini) ls.push_back(el1);
+    if (cnt2 >= mini) ls.push_back(el2);
+
+    // Uncomment the following line
+    // if it is told to sort the answer array:
+    // sort(ls.begin(), ls.end()); //TC --> O(2*log2) ~ O(1);
+
+    return ls;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<vector<int>> threesum(int n, vector<int> &arr) {
+    vector<vector<int>> ans;
+    sort(arr.begin(), arr.end());
+    for (int i = 0; i < n; i++) {
+        //remove duplicates:
+        if (i != 0 && arr[i] == arr[i - 1]) continue;
+
+        //moving 2 pointers:
+        int j = i + 1;
+        int k = n - 1;
+        while (j < k) {
+            int sum = arr[i] + arr[j] + arr[k];
+            if (sum < 0) {
+                j++;
+            }
+            else if (sum > 0) {
+                k--;
+            }
+            else {
+                vector<int> temp = {arr[i], arr[j], arr[k]};
+                ans.push_back(temp);
+                j++;
+                k--;
+                //skip the duplicates:
+                while (j < k && arr[j] == arr[j - 1]) j++;
+                while (j < k && arr[k] == arr[k + 1]) k--;
+            }
+        }
+    }
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int subarrayswithgivenxorK(vector<int> &A, int B) {
+    map<int, int> pre;
+    int aggregate = 0;
+    int result = 0;
+    int n1 = A.size();
+    for (int i = 0; i < n1; i++) {
+        aggregate ^= A[i];
+        if (aggregate == B) {
+            result++;
+        }
+        if (pre.find(aggregate ^ B) != pre.end()) {
+            result += pre[aggregate ^ B];
+        }
+        pre[aggregate]++;
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr) {
+    //SAME THING BUIT HE USED A DIFFERENT ARRAY HENCE NO erase()
+    int n = arr.size(); // size of the array
+
+    //sort the given intervals:
+    sort(arr.begin(), arr.end());
+
+    vector<vector<int>> ans;
+
+    for (int i = 0; i < n; i++) {
+        // if the current interval does not
+        // lie in the last interval:
+        if (ans.empty() || arr[i][0] > ans.back()[1]) {
+            ans.push_back(arr[i]);
+        }
+        // if the current interval
+        // lies in the last interval:
+        else {
+            ans.back()[1] = max(ans.back()[1], arr[i][1]);
+        }
+    }
+    return ans;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void merge2sortedarrayswith0atend(vector<int> &nums1, int m, vector<int> &nums2, int n) {
+    int end = m + n - 1;
+
+    int pointer1 = m - 1;
+    int pointer2 = n - 1;
+
+    while (pointer1 >= 0 && pointer2 >= 0) {
+        if (nums1[pointer1] > nums2[pointer2]) {
+            nums1[end] = nums1[pointer1];
+            pointer1--;
+        } else {
+            nums1[end] = nums2[pointer2];
+            pointer2--;
+        }
+        end--;
+    }
+
+    while (pointer2 >= 0) {
+        nums1[end] = nums2[pointer2];
+        pointer2--;
+        end--;
+    }
+}
+void swapIfGreater(long long arr1[], long long arr2[], int ind1, int ind2) {
+    if (arr1[ind1] > arr2[ind2]) {
+        swap(arr1[ind1], arr2[ind2]);
+    }
+}
+
+void merge2sortedarrayswith0atendAnotherImplementation(long long arr1[], long long arr2[], int n, int m) {
+    // len of the imaginary single array:
+    int len = n + m;
+
+    // Initial gap:
+    int gap = (len / 2) + (len % 2);
+
+    while (gap > 0) {
+        // Place 2 pointers:
+        int left = 0;
+        int right = left + gap;
+        while (right < len) {
+            // case 1: left in arr1[]
+            //and right in arr2[]:
+            if (left < n && right >= n) {
+                swapIfGreater(arr1, arr2, left, right - n);
+            }
+            // case 2: both pointers in arr2[]:
+            else if (left >= n) {
+                swapIfGreater(arr2, arr2, left - n, right - n);
+            }
+            // case 3: both pointers in arr1[]:
+            else {
+                swapIfGreater(arr1, arr1, left, right);
+            }
+            left++, right++;
+        }
+        // break if iteration gap=1 is completed:
+        if (gap == 1) break;
+
+        // Otherwise, calculate new gap:
+        gap = (gap / 2) + (gap % 2);
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<int> findMissingandRepeatingNumbers(vector<int> a) {
+    int n = a.size(); // size of the array
+
+    int xr = 0;
+
+    //Step 1: Find XOR of all elements:
+    for (int i = 0; i < n; i++) {
+        xr = xr ^ a[i];
+        xr = xr ^ (i + 1);
+    }
+
+    //Step 2: Find the differentiating bit number:
+    int number = (xr & ~(xr - 1));
+
+    //Step 3: Group the numbers:
+    int zero = 0;
+    int one = 0;
+    for (int i = 0; i < n; i++) {
+        //part of 1 group:
+        if ((a[i] & number) != 0) {
+            one = one ^ a[i];
+        }
+        //part of 0 group:
+        else {
+            zero = zero ^ a[i];
+        }
+    }
+
+    for (int i = 1; i <= n; i++) {
+        //part of 1 group:
+        if ((i & number) != 0) {
+            one = one ^ i;
+        }
+        //part of 0 group:
+        else {
+            zero = zero ^ i;
+        }
+    }
+
+    // Last step: Identify the numbers:
+    int cnt = 0;
+    for (int i = 0; i < n; i++) {
+        if (a[i] == zero) cnt++;
+    }
+
+    if (cnt == 2) return {zero, one};
+    return {one, zero};
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int mergeforinvertion(vector<int> &arr, int low, int mid, int high) {
+    vector<int> temp; // temporary array
+    int left = low;      // starting index of left half of arr
+    int right = mid + 1;   // starting index of right half of arr
+
+    //Modification 1: cnt variable to count the pairs:
+    int cnt = 0;
+
+    //storing elements in the temporary array in a sorted manner//
+
+    while (left <= mid && right <= high) {
+        if (arr[left] <= arr[right]) {
+            temp.push_back(arr[left]);
+            left++;
+        }
+        else {
+            temp.push_back(arr[right]);
+            cnt += (mid - left + 1); //Modification 2
+            right++;
+        }
+    }
+
+    // if elements on the left half are still left //
+
+    while (left <= mid) {
+        temp.push_back(arr[left]);
+        left++;
+    }
+
+    //  if elements on the right half are still left //
+    while (right <= high) {
+        temp.push_back(arr[right]);
+        right++;
+    }
+
+    // transfering all elements from temporary to arr //
+    for (int i = low; i <= high; i++) {
+        arr[i] = temp[i - low];
+    }
+
+    return cnt; // Modification 3
+}
+
+int mergeSortforinvertion(vector<int> &arr, int low, int high) {
+    int cnt = 0;
+    if (low >= high) return cnt;
+    int mid = (low + high) / 2 ;
+    cnt += mergeSortforinvertion(arr, low, mid);  // left half
+    cnt += mergeSortforinvertion(arr, mid + 1, high); // right half
+    cnt += mergeforinvertion(arr, low, mid, high);  // merging sorted halves
+    return cnt;
+}
+
+int numberOfInversions(vector<int>&a, int n) {
+
+    // Count the number of pairs:
+    return mergeSortforinvertion(a, 0, n - 1);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

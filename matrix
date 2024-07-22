@@ -10,6 +10,16 @@ void printmatrix(vector<vector<int> > &matrix) {
     cout << endl;
 }
 
+void print2DArray(vector<vector<int> > &matrix) {
+    cout << " |  ";
+    for (const vector<int> &j: matrix) {
+        for (int i: j) { cout << i << " "; }
+        cout << " |  ";
+    }
+    cout << endl;
+    cout << endl;
+}
+
 void printvector(vector<int> myVector) {
     copy(myVector.begin(), myVector.end(), ostream_iterator<int>(cout, " "));
 }
