@@ -1131,3 +1131,17 @@ long long int floorSqrt(long long int x) {
     return m;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int NthRoot(int n, int m) {
+    int l = 0;
+    int h = m;
+    int mid = h / 2;
+    while (l <= h) {
+        mid = (l + h) / 2;
+        if (pow(mid, n) == m)return mid;
+        if (l == mid && mid == h) return -1;
+        if (pow(mid, n) < m)l = mid + 1;
+        else h = mid - 1;
+    }
+    return -1;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
