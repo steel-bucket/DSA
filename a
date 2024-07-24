@@ -1,0 +1,21 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+vector<int> getFloorAndCeil(int x, const std::vector<int>& arr) {
+    int floor = -1;
+    int ceil = -1;
+    int floordistance = INT_MAX;
+    int ceildistance = INT_MAX;
+    for (const int &i: arr) {
+        if (i < x && x - i < floordistance) {
+            floor = i;
+            floordistance = x - i;
+        }
+        if (i > x && i - x < ceildistance) {
+            ceil = i;
+            ceildistance = i - x;
+        }
+    }
+    return {floor, ceil};
+}

@@ -215,12 +215,10 @@ vector<int> majorityElementBetter(vector<int> v) {
         if (cnt1 == 0 && el2 != v[i]) {
             cnt1 = 1;
             el1 = v[i];
-        }
-        else if (cnt2 == 0 && el1 != v[i]) {
+        } else if (cnt2 == 0 && el1 != v[i]) {
             cnt2 = 1;
             el2 = v[i];
-        }
-        else if (v[i] == el1) cnt1++;
+        } else if (v[i] == el1) cnt1++;
         else if (v[i] == el2) cnt2++;
         else {
             cnt1--, cnt2--;
@@ -247,9 +245,10 @@ vector<int> majorityElementBetter(vector<int> v) {
 
     return ls;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-vector<vector<int>> threesum(int n, vector<int> &arr) {
-    vector<vector<int>> ans;
+vector<vector<int> > threesum(int n, vector<int> &arr) {
+    vector<vector<int> > ans;
     sort(arr.begin(), arr.end());
     for (int i = 0; i < n; i++) {
         //remove duplicates:
@@ -262,11 +261,9 @@ vector<vector<int>> threesum(int n, vector<int> &arr) {
             int sum = arr[i] + arr[j] + arr[k];
             if (sum < 0) {
                 j++;
-            }
-            else if (sum > 0) {
+            } else if (sum > 0) {
                 k--;
-            }
-            else {
+            } else {
                 vector<int> temp = {arr[i], arr[j], arr[k]};
                 ans.push_back(temp);
                 j++;
@@ -298,15 +295,16 @@ int subarrayswithgivenxorK(vector<int> &A, int B) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr) {
+vector<vector<int> > mergeOverlappingIntervals(vector<vector<int> > &arr) {
     //SAME THING BUIT HE USED A DIFFERENT ARRAY HENCE NO erase()
     int n = arr.size(); // size of the array
 
     //sort the given intervals:
     sort(arr.begin(), arr.end());
 
-    vector<vector<int>> ans;
+    vector<vector<int> > ans;
 
     for (int i = 0; i < n; i++) {
         // if the current interval does not
@@ -322,6 +320,7 @@ vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr) {
     }
     return ans;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void merge2sortedarrayswith0atend(vector<int> &nums1, int m, vector<int> &nums2, int n) {
@@ -347,6 +346,7 @@ void merge2sortedarrayswith0atend(vector<int> &nums1, int m, vector<int> &nums2,
         end--;
     }
 }
+
 void swapIfGreater(long long arr1[], long long arr2[], int ind1, int ind2) {
     if (arr1[ind1] > arr2[ind2]) {
         swap(arr1[ind1], arr2[ind2]);
@@ -387,6 +387,7 @@ void merge2sortedarrayswith0atendAnotherImplementation(long long arr1[], long lo
         gap = (gap / 2) + (gap % 2);
     }
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 vector<int> findMissingandRepeatingNumbers(vector<int> a) {
     int n = a.size(); // size of the array
@@ -436,11 +437,12 @@ vector<int> findMissingandRepeatingNumbers(vector<int> a) {
     if (cnt == 2) return {zero, one};
     return {one, zero};
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int mergeforinvertion(vector<int> &arr, int low, int mid, int high) {
     vector<int> temp; // temporary array
-    int left = low;      // starting index of left half of arr
-    int right = mid + 1;   // starting index of right half of arr
+    int left = low; // starting index of left half of arr
+    int right = mid + 1; // starting index of right half of arr
 
     //Modification 1: cnt variable to count the pairs:
     int cnt = 0;
@@ -451,8 +453,7 @@ int mergeforinvertion(vector<int> &arr, int low, int mid, int high) {
         if (arr[left] <= arr[right]) {
             temp.push_back(arr[left]);
             left++;
-        }
-        else {
+        } else {
             temp.push_back(arr[right]);
             cnt += (mid - left + 1); //Modification 2
             right++;
@@ -483,18 +484,18 @@ int mergeforinvertion(vector<int> &arr, int low, int mid, int high) {
 int mergeSortforinvertion(vector<int> &arr, int low, int high) {
     int cnt = 0;
     if (low >= high) return cnt;
-    int mid = (low + high) / 2 ;
-    cnt += mergeSortforinvertion(arr, low, mid);  // left half
+    int mid = (low + high) / 2;
+    cnt += mergeSortforinvertion(arr, low, mid); // left half
     cnt += mergeSortforinvertion(arr, mid + 1, high); // right half
-    cnt += mergeforinvertion(arr, low, mid, high);  // merging sorted halves
+    cnt += mergeforinvertion(arr, low, mid, high); // merging sorted halves
     return cnt;
 }
 
-int numberOfInversions(vector<int>&a, int n) {
-
+int numberOfInversions(vector<int> &a, int n) {
     // Count the number of pairs:
     return mergeSortforinvertion(a, 0, n - 1);
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int maxProduct(vector<int> &arr) {
     auto size = arr.size();
@@ -510,4 +511,234 @@ int maxProduct(vector<int> &arr) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int lowerBoundfunction(vector<int> arr, int n, int x) {
+    int low = 0, high = n - 1;
+    int ans = n;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        // maybe an answer
+        if (arr[mid] >= x) {
+            ans = mid;
+            //look for smaller index on the left
+            high = mid - 1;
+        } else {
+            low = mid + 1; // look on the right
+        }
+    }
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int upperBoundfunction(vector<int> &arr, int x, int n) {
+    int low = 0, high = n - 1;
+    int ans = n;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        // maybe an answer
+        if (arr[mid] > x) {
+            ans = mid;
+            //look for smaller index on the left
+            high = mid - 1;
+        } else {
+            low = mid + 1; // look on the right
+        }
+    }
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int findFloor(int arr[], int n, int x) {
+    int low = 0, high = n - 1;
+    int ans = -1;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        // maybe an answer
+        if (arr[mid] <= x) {
+            ans = arr[mid];
+            low = mid + 1; // look on the right
+        } else {
+            high = mid - 1;
+        }
+    }
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int findCeil(int arr[], int n, int x) {
+    int low = 0, high = n - 1;
+    int ans = n;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        // maybe an answer
+        if (arr[mid] > x) {
+            ans = arr[mid];
+            //look for smaller index on the left
+            high = mid - 1;
+        } else {
+            low = mid + 1; // look on the right
+        }
+    }
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// l m h
+// nums[m] > nums[l] && nums[m] > nums[h] pivot on right
+// nums[m] < nums[l] && nums[m] < nums[h] pivot on left or middle
+// else no pivot
+// WE WERE SO CLOSE TO FINISHING THE QUESTION
+// WHEN CHOOSING IF STATEMENTS ALWAYS CHOOSE THE SIMPLER SIDE
+int searchinrotatedsortedarray(vector<int> &nums, int target) {
+    int l = 0;
+    int h = nums.size() - 1;
+    int m = (l + h) / 2;
+    while (l <= h) {
+        m = (l + h) / 2;
+        // cout << l << " " << m << " " << h << endl;
+        if (nums[m] == target)return m;
+        if (nums[h] == target)return h;
+        if (nums[l] == target)return l;
+        if (nums[l] <= nums[m]) {
+            if (nums[l] <= target && target < nums[m])h = m - 1;
+            else l = m + 1;
+        } else {
+            if (nums[m] < target && target <= nums[h])l = m + 1;
+            else h = m - 1;
+        }
+    }
+    // cout << l << " " << m << " " << h << endl;
+    return -1;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool searchInARotatedSortedArrayII(vector<int> &arr, int k) {
+    int n = arr.size(); // size of the array.
+    int low = 0, high = n - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+
+        //if mid points the target
+        if (arr[mid] == k) return true;
+
+        //Edge case:
+        if (arr[low] == arr[mid] && arr[mid] == arr[high]) {
+            low = low + 1;
+            high = high - 1;
+            continue;
+        }
+
+        //if left part is sorted:
+        if (arr[low] <= arr[mid]) {
+            if (arr[low] <= k && k <= arr[mid]) {
+                //element exists:
+                high = mid - 1;
+            } else {
+                //element does not exist:
+                low = mid + 1;
+            }
+        } else {
+            //if right part is sorted:
+            if (arr[mid] <= k && k <= arr[high]) {
+                //element exists:
+                low = mid + 1;
+            } else {
+                //element does not exist:
+                high = mid - 1;
+            }
+        }
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int findMinBetter(vector<int> &arr) {
+    int low = 0, high = arr.size() - 1;
+    int ans = INT_MAX;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        //search space is already sorted
+        //then arr[low] will always be
+        //the minimum in that search space:
+        if (arr[low] <= arr[high]) {
+            ans = min(ans, arr[low]);
+            break;
+        }
+
+        //if left part is sorted:
+        if (arr[low] <= arr[mid]) {
+            // keep the minimum:
+            ans = min(ans, arr[low]);
+
+            // Eliminate left half:
+            low = mid + 1;
+        } else {
+            //if right part is sorted:
+
+            // keep the minimum:
+            ans = min(ans, arr[mid]);
+
+            // Eliminate right half:
+            high = mid - 1;
+        }
+    }
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+int findKRotation(vector<int> &arr) {
+    int low = 0, high = arr.size() - 1;
+    int ans = INT_MAX;
+    int index = -1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        //search space is already sorted
+        //then arr[low] will always be
+        //the minimum in that search space:
+        if (arr[low] <= arr[high]) {
+            if (arr[low] < ans) {
+                index = low;
+                ans = arr[low];
+            }
+            break;
+        }
+
+        //if left part is sorted:
+        if (arr[low] <= arr[mid]) {
+            // keep the minimum:
+            if (arr[low] < ans) {
+                index = low;
+                ans = arr[low];
+            }
+
+            // Eliminate left half:
+            low = mid + 1;
+        } else {
+            //if right part is sorted:
+
+            // keep the minimum:
+            if (arr[mid] < ans) {
+                index = mid;
+                ans = arr[mid];
+            }
+
+            // Eliminate right half:
+            high = mid - 1;
+        }
+    }
+    return index;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

@@ -926,3 +926,208 @@ long long inversionCountMultiset(long long arr[], int n) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int binarysearch(vector<int> &nums, int target) {
+    int l = 0;
+    int h = nums.size();
+    while (l <= h) {
+        int m = (l + h) / 2;
+        if (nums[m] > target)h = m - 1;
+        else if (nums[m] < target)l = m + 1;
+        else return m;
+    }
+    return -1;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int findFloor(vector<long long> v, long long n, long long x) {
+    long long l = 0;
+    long long h = n -1;
+    long long m;
+    while (l <= h) {
+        m = (l + h) / 2;
+        if(v[m] == x)return m;
+        else if (v[m] < x)l = m + 1;
+        else h = m - 1;
+    }
+    return h;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+vector<int> getFloorAndCeil(int x, const vector<int> &arr) {
+    int floor = -1;
+    int ceil = -1;
+    int floordistance = INT_MAX;
+    int ceildistance = INT_MAX;
+    for (const int &i: arr) {
+        if(i==x)return {i,i};
+        if (i < x && x - i < floordistance) {
+            floor = i;
+            floordistance = x - i;
+        }
+        if (i > x && i - x < ceildistance) {
+            ceil = i;
+            ceildistance = i - x;
+        }
+    }
+    return {floor, ceil};
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int searchInsert(vector<int> &nums, int target) {
+    int l = 0;
+    int h = nums.size()-1;
+    int m = (l + h) / 2;
+    int result = m;
+    while (l <= h) {
+        m = (l + h) / 2;
+        if (nums[m] >= target){result = m;h = m - 1;}
+        else if (nums[m] < target)l = m + 1;
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int findstarting(vector<int> arr, int n, int x) {
+    int low = 0, high = n - 1;
+    int ans = -1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == x) {
+            ans = mid;
+            high = mid - 1;
+        } else if (arr[mid] > x) {
+            high = mid -1;
+        }
+        else {
+            low = mid + 1;
+        }
+    }
+    return ans;
+}
+
+
+int findending(vector<int> &arr, int n, int x) {
+    int low = 0, high = n - 1;
+    int ans = -1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == x) {
+            ans = mid;
+            low = mid + 1;
+        } else if (arr[mid] > x) {
+            high = mid -1;
+        }
+        else {
+            low = mid + 1;
+        }
+    }
+    return ans;
+}
+
+vector<int> searchRange(vector<int> &nums, int target) {
+    int n = nums.size();
+    int a = findstarting(nums, n, target);
+    int b = findending(nums, n, target);
+    // if (a != -1 && nums[a] == target)result.push_back(a);
+    // else result.push_back(-1);
+    // if (b > -1 && nums[b] == target)result.push_back(b);
+    // else result.push_back(-1);
+    return {a,b};
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int count(int arr[], int n, int x) {
+    // int a = findstarting(arr, n, x); // Uncomment
+    // int b = findending(arr, n, x); // Uncomment
+    // if (a != -1)return b - a + 1; // Uncomment
+    return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool searchinrotatedsortedarray2(vector<int> &nums, int target) {
+    int l = 0;
+    int h = nums.size() - 1;
+    int m = (l + h) / 2;
+    while (l <= h) {
+        m = (l + h) / 2;
+        cout << l << " " << m << " " << h << endl;
+        if (nums[m] == target)return true;
+        if (nums[h] == target)return true;
+        if (nums[l] == target)return true;
+        if (nums[l] < nums[m]) {
+            if (nums[l] <= target && target < nums[m])h = m - 1;
+            else l = m + 1;
+        } else if (nums[l] > nums[m]){
+            if (nums[m] < target && target <= nums[h])l = m + 1;
+            else h = m - 1;
+        } else {
+            for(int i = m;i<h+1;i++) {
+                if(nums[i] == target)return true;
+            }
+            h = m-1;
+        }
+    }
+    cout << l << " " << m << " " << h << endl;
+    return false;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int findMin(vector<int> &nums) {
+    int l = 0;
+    int size = nums.size();
+    int h = size - 1;
+    int m = (l + h) / 2;
+    if(h == 0)return nums[0];
+    if(h == 1)return min(nums[0], nums[1]);
+    while (l <= h) {
+        m = (l + h) / 2;
+        cout << l << " " << m << " " << h << endl;
+        if (m > 0 && m < size - 1 && nums[m] < nums[m - 1] && nums[m] < nums[m + 1])return nums[m];
+        if (m == 0 && nums[m] < nums[m + 1] && nums[m] < nums[size - 1])return nums[m];
+        if (m == size - 1 && nums[m] < nums[0] && nums[m] < nums[m-1])return nums[m];
+        if(m == l) return min(nums[m], nums[h]);
+        if(m == h) return min(nums[m], nums[l]);
+        if (nums[m] > nums[l] && nums[m] > nums[h]) {
+            l = m + 1;
+        } else if (nums[m] < nums[l] && nums[m] < nums[h]) {
+            h = m - 1;
+        } else {
+            return nums[l];
+        }
+    }
+    cout << l << " " << m << " " << h << endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int singleNonDuplicate(vector<int> &nums) {
+    int l = 0;
+    int h = nums.size() - 1;
+    int m = (l + h) / 2;
+    if (h == 0)return nums[0];
+    int second;
+    while (l <= h) {
+        m = (l + h) / 2;
+        if(m == 0) {
+            if(nums[m] != nums[m+1])return nums[m];
+        }
+        if(m == nums.size() - 1) {
+            if(nums[m] != nums[m-1])return nums[m];
+        }
+        if (nums[m] != nums[m - 1] && nums[m] != nums[m + 1])return nums[m];
+        if (nums[m] == nums[m - 1])second = m;
+        else if (nums[m] == nums[m+1])second = m+1;
+        if (second % 2 == 0)h = m - 1;
+        else if (second % 2 == 1)l = m + 1;
+    }
+    return -1;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+long long int floorSqrt(long long int x) {
+    long long l = 0;
+    long long h = x;
+    long long m = x / 2;
+    while (l <= h) {
+        m = (l + h) / 2;
+        if (m * m == x)return m;
+        if (m * m < x && (m + 1) * (m + 1) > x)return m;
+        if (m * m < x)l = m + 1;
+        else h = m - 1;
+    }
+    return m;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
