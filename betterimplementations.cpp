@@ -741,4 +741,129 @@ int findKRotation(vector<int> &arr) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool searchElementIn2DMatrix(vector<vector<int> > &matrix, int target) {
+    int n = matrix.size();
+    int m = matrix[0].size();
+    int row = 0, col = m - 1;
 
+    //traverse the matrix from (0, m-1):
+    while (row < n && col >= 0) {
+        if (matrix[row][col] == target) return true;
+        else if (matrix[row][col] < target) row++;
+        else col--;
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+string removeOuterParenthesesMoreReadable(string s) {
+    // just more readable
+    string result; // To store the final result
+    int balance = 0; // To keep track of the balance of parentheses
+
+    // Iterate through each character in the string
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == '(') {
+            // If balance is greater than 0, it means this '(' is not an
+            // outermost parenthesis
+            if (balance > 0) {
+                result += s[i]; // Add the character to the result
+            }
+            balance++; // Increase the balance for '('
+        } else {
+            balance--; // Decrease the balance for ')'
+            // If balance is greater than 0, it means this ')' is not an
+            // outermost parenthesis
+            if (balance > 0) {
+                result += s[i]; // Add the character to the result
+            }
+        }
+    }
+
+    return result; // Return the final result after removing outermost
+    // parentheses
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool isIsomorphic(string str1, string str2) {
+    int MAX_CHARS = 256;
+    int m = (int) str1.length(), n = (int) str2.length();
+    // Length of both strings must be same for one to one
+    // correspondence
+    if (m != n)
+        return false;
+    // To mark visited characters in str2
+    bool marked[MAX_CHARS] = {false};
+    // To store mapping of every character from str1 to
+    // that of str2. Initialize all entries of map as -1.
+    int map[MAX_CHARS];
+    memset(map, -1, sizeof(map));
+    // Process all characters one by one
+    for (int i = 0; i < n; i++) {
+        // If current character of str1 is seen first
+        // time in it.
+        if (map[str1[i]] == -1) {
+            // If current character of str2 is already
+            // seen, one to one mapping not possible
+            if (marked[str2[i]] == true)
+                return false;
+
+            // Mark current character of str2 as visited
+            marked[str2[i]] = true;
+
+            // Store mapping of current characters
+            map[str1[i]] = str2[i];
+        }
+        // If this is not first appearance of current
+        // character in str1, then check if previous
+        // appearance mapped to same character of str2
+        else if (map[str1[i]] != str2[i])
+            return false;
+    }
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool rotateString(string s, const string &goal) {
+    int sl = (int) s.length(), gl = (int) goal.length();
+    if (sl != gl)return false;
+    for (int i = 0; i < sl; i++) {
+        s += s[i];
+        if (s.substr(i + 1, sl + 1) == goal)return true;
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int beautySumBetter(string s) {
+    int ans = 0;
+
+    //iterating over each character of the string.
+    for (auto i = 0; i < s.size(); ++i) {
+        int cnt[26] = {}, max_f = 0, min_f = 0;
+
+        //iterating over subarrays starting from i.
+        for (auto j = i; j < s.size(); ++j) {
+            int idx = s[j] - 'a';
+            //updating maximum frequency.
+            max_f = max(max_f, ++cnt[idx]);
+
+            //updating minimum frequency.
+            // if (min_f >= cnt[idx] - 1) {
+            min_f = cnt[idx];
+            for (int k = 0; k < 26; ++k)
+                //finding minimum frequency of all characters.
+                min_f = min(min_f, cnt[k] == 0 ? INT_MAX : cnt[k]);
+            //  }
+
+            //adding the difference between maximum and minimum frequency.
+            ans += max_f - min_f;
+        }
+    }
+
+    //returning the beauty sum.
+    return ans;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

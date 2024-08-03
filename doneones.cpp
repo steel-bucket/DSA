@@ -798,7 +798,6 @@ vector<vector<int> > threeSumwithtwosum(vector<int> &nums) {
                 j.push_back(-k);
                 sort(j.begin(), j.end());
                 resultset.insert(j);
-
             }
         }
     }
@@ -1144,4 +1143,545 @@ int NthRoot(int n, int m) {
     }
     return -1;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+double calculateHours(vector<int> &v, int hourly) {
+    double totalH = 0;
+    int n = v.size();
+    for (int i = 0; i < n; i++) {
+        totalH += ceil((double) (v[i]) / (double) (hourly));
+    }
+    return totalH;
+}
+
+int minEatingSpeed(vector<int> v, int h) {
+    int maxi = *max_element(v.begin(), v.end());
+    int low = 0;
+    int hig = maxi;
+    int mid = (low + hig) / 2;
+    while (low <= hig) {
+        mid = (low + hig) / 2;
+        double time = calculateHours(v, mid);
+        if (time <= h)hig = mid - 1;
+        else low = mid + 1;
+    }
+    return low;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool willItBloom(vector<int> &bloomDay, int m, int k, int maxDay) {
+    int size = bloomDay.size();
+    int current = 0;
+    for (int i = 0; i < size; i++) {
+        if (bloomDay[i] <= maxDay) {
+            current++;
+        } else {
+            m -= current / k;
+            current = 0;
+        }
+    }
+    m -= current / k;
+    if (m <= 0)return true;
+    return false;
+}
+
+int minDays(vector<int> &bloomDay, int m, int k) {
+    int maxi = *max_element(bloomDay.begin(), bloomDay.end());
+    int low = 0;
+    int hig = maxi;
+    int mid = (low + hig) / 2;
+    bool flag = false;
+    while (low <= hig) {
+        mid = (low + hig) / 2;
+        bool willit = willItBloom(bloomDay, m, k, mid);
+        if (willit == false)low = mid + 1;
+        else {
+            hig = mid - 1;
+            flag = true;
+        }
+    }
+    if (flag)return low;
+    return -1;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool willitdivide(vector<int> &nums, int number, int threshold) {
+    double sum = 0;
+    for (auto &i: nums) {
+        sum += ceil((double) (i) / (double) (number));
+    }
+    return sum <= threshold;
+}
+
+int smallestDivisor(vector<int> &nums, int threshold) {
+    int low = 0;
+    int maxi = *max_element(nums.begin(), nums.end());
+    int hig = maxi;
+    int mid = (low + hig) / 2;
+    while (low <= hig) {
+        mid = (low + hig) / 2;
+        // cout << low << " " << mid << " " << hig << endl;
+        int c = willitdivide(nums, mid, threshold);
+        if (c == false) {
+            low = mid + 1;
+        } else {
+            hig = mid - 1;
+        }
+    }
+    // cout << low << " " << mid << " " << hig << endl;
+    return low;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool willItShip(vector<int> &weights, int days, int capacity) {
+    int copy = capacity;
+    for (int &i: weights) {
+        copy -= i;
+        if (copy < 0) {
+            days--;
+            copy = capacity -i ;
+        }
+    }
+    days--;
+    return days >= 0;
+}
+
+
+int shipWithinDays(vector<int>& weights, int days) {
+    int sum =0;
+    int maxi = INT_MIN;
+    for(int &i:weights) {
+        maxi = max(maxi, i);
+        sum += i;
+    }
+    int low = maxi;
+    int hig = sum;
+    int mid = (low + hig) / 2;
+    while (low <= hig) {
+        mid = (low + hig) / 2;
+        int c = willItShip(weights, days, mid);
+        if (c == false) {
+            low = mid + 1;
+        } else {
+            hig = mid - 1;
+        }
+    }
+    return low;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int findKthPositive(vector<int> &arr, int k) {
+    int low = 0;
+    int high = arr.size() - 1;
+    while(low<=high) {
+        int mid = (low + high) / 2;
+        int missingNumbersOnTheLeft = arr[mid] - mid - 1;
+        if(missingNumbersOnTheLeft >= k) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return k + high + 1;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool willItWork(int n, int k, int maxgap, vector<int> &stalls) {
+    int current = stalls[0];
+    for (int &i: stalls) {
+        if (i - current >= maxgap) {
+            k--;
+            current = i;
+        }
+    }
+    k--;
+    return (k <= 0);
+}
+
+int AggressiveCows(int n, int k, vector<int> &stalls) {
+    int low = 0;
+    sort(stalls.begin(), stalls.end());
+    int high = stalls[n - 1] - stalls[0];
+    int res = -1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (willItWork(n, k, mid, stalls)) {
+            res = mid;
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return res;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool canBookBeAlloted(vector<int> &arr, int n, int m, int pages) {
+    int copy = pages;
+    for (int &i: arr) {
+        copy -= i;
+        if (copy < 0) {
+            m--;
+            copy = pages - i;
+        }
+    }
+    m--;
+    return m >= 0;
+}
+
+int findPages(vector<int> &arr, int n, int m) {
+    int sum = 0;
+    int maxi = INT_MIN;
+    for (int &i: arr) {
+        maxi = max(maxi, i);
+        sum += i;
+    }
+    int low = maxi;
+    int hig = sum;
+    int mid = (low + hig) / 2;
+    bool flag = false;
+    if (m > arr.size())return -1;
+    while (low <= hig) {
+        mid = (low + hig) / 2;
+        int c = canBookBeAlloted(arr, n, m, mid);
+        if (c == false) {
+            low = mid + 1;
+        } else {
+            flag = true;
+            hig = mid - 1;
+        }
+    }
+    if (flag == false) return -1;
+    return low;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int splitArray(vector<int> &arr , int m) {
+    int sum = 0;
+    int maxi = INT_MIN;
+    for (int &i: arr) {
+        maxi = max(maxi, i);
+        sum += i;
+    }
+    int low = maxi;
+    int hig = sum;
+    int mid = (low + hig) / 2;
+    bool flag = false;
+    if (m > arr.size())return -1;
+    while (low <= hig) {
+        mid = (low + hig) / 2;
+        int c = canBookBeAlloted(arr,arr.size(), m, mid);
+        if (c == false) {
+            low = mid + 1;
+        } else {
+            flag = true;
+            hig = mid - 1;
+        }
+    }
+    if (flag == false) return -1;
+    return low;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int findLargestMinDistance(vector<int> &arr, int k)
+{
+    int sum = 0;
+    int maxi = INT_MIN;
+    for (int &i: arr) {
+        maxi = max(maxi, i);
+        sum += i;
+    }
+    int low = maxi;
+    int hig = sum;
+    int mid = (low + hig) / 2;
+    bool flag = false;
+    if (k > arr.size())return -1;
+    while (low <= hig) {
+        mid = (low + hig) / 2;
+        int c = canBookBeAlloted(arr,arr.size(), k, mid);
+        if (c == false) {
+            low = mid + 1;
+        } else {
+            flag = true;
+            hig = mid - 1;
+        }
+    }
+    if (flag == false) return -1;
+    return low;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int firstone(vector<int> nums) {
+    int low = 0;
+    int hig = nums.size() - 1;
+    int res = -1;
+    while (low <= hig) {
+        int mid = (low + hig) / 2;
+        if (nums[mid] == 1) {
+            res = mid;
+            hig = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return res;
+}
+
+int rowWithMax1s(vector<vector<int> > nums) {
+    int val = INT_MAX;
+    int res = 0;
+    for (int i = 0; i < nums.size(); i++) {
+        int a = firstone(nums[i]);
+        if (a < val && a != -1) {
+            res = i;
+            val = a;
+        }
+    }
+    return res;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int getfirstindex(vector<vector<int> > &matrix, int target) {
+    int low = 0;
+    int hig = matrix.size() - 1;
+    while(low <= hig) {
+        int mid = (low+ hig)/2;
+        if(matrix[mid][0] > target) {
+            hig = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return hig;
+}
+bool search2dPurelySortedMatrix(vector<vector<int> > &matrix, int target) {
+    int low = 0;
+    int hig = matrix[0].size() - 1;
+    int row = getfirstindex(matrix, target);
+    if(row == -1)return false;
+    while(low<=hig) {
+        int mid = (low+hig)/2;
+        if(matrix[row][mid] == target)return true;
+        if(matrix[row][mid] > target)hig = mid - 1;
+        else low = mid + 1;
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool search2DMatrix(vector<vector<int> > &matrix, int target) {
+    for (vector<int> &i: matrix) {
+        int low = 0;
+        int hig = i.size() - 1;
+        while (low <= hig) {
+            int mid = (low + hig) / 2;
+            if (i[mid] == target)return true;
+            if (i[mid] > target)hig = mid - 1;
+            else low = mid + 1;
+        }
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+string removeOuterParentheses(string s) {
+    int buffer = 0;
+    string result;
+    bool flag = false;
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == '(') {
+            buffer++;
+            result.push_back(s[i]);
+        } else {
+            buffer--;
+            result.push_back(s[i]);
+        }
+        if (buffer == 1 && flag == false) {
+            result.pop_back();
+            flag = true;
+        }
+        if (buffer == 0) {
+            result.pop_back();
+            flag = false;
+        }
+        // cout << "buffer " << buffer << " " << result << endl;;
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+string reverseWords(string s) {
+    string result;
+    string buffer;
+    int side = (int) s.size();
+    int i = side - 1;
+    while (i >= 0) {
+        while (i >= 0 && s[i] == ' ') {
+            i--;
+        }
+        while (i >= 0 && s[i] != ' ') {
+            buffer.push_back(s[i]);
+            i--;
+        }
+        reverse(buffer.begin(), buffer.end());
+        result.append(buffer);
+        if (i != 0)result.push_back(' ');
+        buffer = "";
+    }
+    i = (int) result.size() - 1;
+    while (result[i] == ' ') {
+        result.pop_back();
+        i--;
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+string largestOddNumber(string num) {
+    int i = (int) num.size() - 1;
+    while (i != -1) {
+        if (
+            num[i] == '1' ||
+            num[i] == '3' ||
+            num[i] == '5' ||
+            num[i] == '7' ||
+            num[i] == '9'
+        ) {
+            return num.substr(0, i + 1);
+        }
+        i--;
+    }
+    return "";
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+string longestCommonPrefix(vector<string> &strs) {
+    string result = strs[0];
+    int resultsize = result.size();
+    for (string &i: strs) {
+        int size = i.size();
+        for (int j = 0; j < size; j++) {
+            if(j == resultsize)break;
+            if(i[j] != result[j]) {
+                result = result.substr(0,j);
+            }
+        }
+        result = result.substr(0,size);
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool isAnagram(string s, string t) {
+    map<int, int> m;
+    for (char &i: s) {
+        if (m.find(i) == m.end())m[i] = 1;
+        else m[i]++;
+    }
+    for (char &j: t) {
+        if (m.find(j) == m.end())return false;
+        m[j]--;
+    }
+    for (auto k: m) {
+        if (k.second != 0) return false;
+    }
+    return true;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int romanToInt(string s) {
+    map<char, int> m;
+    m['I'] = 1;
+    m['V'] = 5;
+    m['X'] = 10;
+    m['L'] = 50;
+    m['C'] = 100;
+    m['D'] = 500;
+    m['M'] = 1000;
+    int size = (int) s.size();
+    int result = 0;
+    for (int i = 0; i < size; i++) {
+        if (i != size - 1 && m[s[i]] < m[s[i + 1]])result -= m[s[i]];
+        else result += m[s[i]];
+    }
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int myAtoi(string s) {
+    // 48 to 57
+    bool neg = false;
+    bool pos = false;
+    bool innums = false;
+    long long result = 0;
+    const int MIN_VALUE = -(1 << 31);
+    const int MAX_VALUE = (1 << 31) - 1;
+    for (char &i: s) {
+        if ((i < 48 || i > 57) && innums)break;
+        if (!(i < 48 || i > 57)) innums = true;
+        if (i == ' ') {
+            if (pos == false && neg == false){}
+            else break;
+        }
+        if (i == '+') {
+            if (pos == false && neg == false)pos = true;
+            else break;
+            continue;
+        }
+        if (i != '-' && i != ' ' && (i < 48 || i > 57))break;
+        if (i == '-') {
+            if (neg == false && pos == false)neg = true;
+            else break;
+        }
+        if (i != ' ' && i != '-')result = result * 10 + (int) i - 48;
+        if (result > MAX_VALUE && neg == false) {
+            result = MAX_VALUE;
+        }
+        else if(result > MAX_VALUE) return MIN_VALUE;
+    }
+    if (neg)result *= -1;
+    if (result < MIN_VALUE) {
+        result = MIN_VALUE;
+    } else if (result > MAX_VALUE) {
+        result = MAX_VALUE;
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool Palindrome(string s, int start, int end) {
+    for (int index = start; index <= (start + end) / 2; index++) {
+        if (s[index] != s[end - index + start]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+string longestPalindrome(const string& s) {
+    string result;
+    int buffer = 0;
+    int n = (int)s.size();
+    if (n == 1)return s;
+
+    for (int i = 0; i < n-1; i++) {
+        for (int j = i; j < n; j++) {
+            if (Palindrome(s, i, j) && j - i + 1 > buffer) {
+                buffer = j - i + 1;
+                result = s.substr(i, buffer);
+            }
+        }
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int beautySum(string s) {
+    int size = s.size();
+    int result = 0;
+    for (int i = 0; i < size; i++) {
+        map<int, int> m;
+        for (int j = i; j < size; j++) {
+            int maxi = 0;
+            int mini = INT_MAX;
+            if (m.find(s[j]) != m.end())m[s[j]]++;
+            else m[s[j]] = 1;
+            for (auto it: m) {
+                maxi = max(maxi, it.second);
+                mini = min(mini, it.second);
+            }
+            result += maxi - mini;
+        }
+    }
+    return result;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
