@@ -12,7 +12,20 @@ void swapfunction(int &a, int &b) {
     a = b;
     b = temp;
 }
+struct Node {
+    int data;
+    Node *next;
 
+    Node(int d, Node *n) {
+        data = d;
+        next = n;
+    }
+
+    explicit Node(int d) {
+        data = d;
+        next = nullptr;
+    }
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int evenlyDivides(int N) {
     int buffer = N;
@@ -1684,4 +1697,60 @@ int beautySum(string s) {
     return result;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int getCount(struct Node *head) {
+    int result = 0;
+    while (head != nullptr) {
+        result++;
+        head = head->next;
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void addNode(Node *head, int pos, int data) {
+    int c = 0;
+    while (c != pos) {
+        c++;
+        head = head->next;
+    }
+    Node *t = new Node(data);
+    Node *n = head->next;
+    head->next = t;
+    // if(t!=nullptr)t->prev = head;
+    if(t!=nullptr)t->next = n;
+    // if(n!=nullptr)n->prev = t;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Node *deleteNode(Node *head, int x) {
+    Node *t = head;
+    if(x==1)return t->next;
+    while (x > 2 && t != nullptr && t->next != nullptr) {
+        x--;
+        t = t->next;
+    }
+    if (t->next != nullptr && t->next->next != nullptr) {
+        Node *n = t->next->next;
+        if (n != nullptr)t->next = n;
+        // if (n != nullptr)n->prev = n;
+    } else if(t->next != nullptr){
+        t->next = nullptr;
+    }
+    return head;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Node *reverseDLL(Node *head) {
+    if (head == nullptr || head->next == nullptr)return head;
+    // head->prev = head->next;
+    // head->next = nullptr;
+    // while (head->prev->next != nullptr) {
+    //     head = head->prev;
+    //     Node *temp = head->prev;
+    //     head->prev = head->next;
+    //     head->next = temp;
+    // }
+    // head = head->prev;
+    // head->next = head->prev;
+    // head->prev = nullptr;
+    return head;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
