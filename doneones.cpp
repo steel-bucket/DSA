@@ -15,16 +15,15 @@ void swapfunction(int &a, int &b) {
 struct Node {
     int data;
     Node *next;
+    Node(int d, Node *n) { data = d, next = n; }
+    explicit Node(int d) { data = d, next = nullptr; }
+};
 
-    Node(int d, Node *n) {
-        data = d;
-        next = n;
-    }
-
-    explicit Node(int d) {
-        data = d;
-        next = nullptr;
-    }
+struct ListNode {
+    int data;
+    ListNode *next;
+    ListNode(int d, ListNode *n) { data = d, next = n; }
+    explicit ListNode(int d) { data = d, next = nullptr; }
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int evenlyDivides(int N) {
@@ -1751,6 +1750,24 @@ Node *reverseDLL(Node *head) {
     // head = head->prev;
     // head->next = head->prev;
     // head->prev = nullptr;
+    return head;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ListNode *deleteMiddle(ListNode *head) {
+    auto slow = head;
+    auto fast = head;
+    auto prev = slow;
+    if(head->next == nullptr)return nullptr;
+    while (fast != nullptr && fast->next != nullptr) {
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    if (prev->next && prev->next->next) {
+        prev->next = prev->next->next;
+    } else {
+        prev->next = nullptr;
+    }
     return head;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
