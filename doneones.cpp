@@ -13,18 +13,27 @@ void swapfunction(int &a, int &b) {
     b = temp;
 }
 struct Node {
-    int data;
+    int val;
     Node *next;
-    Node(int d, Node *n) { data = d, next = n; }
-    explicit Node(int d) { data = d, next = nullptr; }
+    Node(int d, Node *n) { val = d, next = n; }
+    explicit Node(int d) { val = d, next = nullptr; }
 };
 
 struct ListNode {
-    int data;
+    int val;
     ListNode *next;
-    ListNode(int d, ListNode *n) { data = d, next = n; }
-    explicit ListNode(int d) { data = d, next = nullptr; }
+    ListNode(int d, ListNode *n) { val = d, next = n; }
+    explicit ListNode(int d) { val = d, next = nullptr; }
 };
+
+
+ListNode *vectorToList(const std::vector<int> &v) {
+    ListNode *head = nullptr;
+    for (auto it = v.rbegin(); it != v.rend(); ++it)head = new ListNode(*it, head);
+    return head;
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int evenlyDivides(int N) {
     int buffer = N;
@@ -142,7 +151,7 @@ string clean(const string &s) {
             // result.append(to_string(it));
         }
         if (it >= 65 && it <= 90) {
-            result += tolower(it);
+            result += (char) tolower(it);
             // result.append(to_string(tolower(it)));
         }
     }
@@ -278,7 +287,7 @@ int print2largest(vector<int> &arr) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool checkforrotatedsortedarray(vector<int> &nums) {
-    int size = nums.size();
+    int size = (int) nums.size();
     bool theswitch = false;
     for (int i = 0; i < size - 1; i++) {
         if (nums[i] > nums[i + 1] && nums[i] < nums[size - 1])return false;
@@ -290,21 +299,21 @@ bool checkforrotatedsortedarray(vector<int> &nums) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int removeDuplicates(vector<int> &nums) {
-    int result = 0;
-    int pointer1 = 0;
-    int pointer2 = 1;
-    int size = nums.size();
-    while (pointer2 < size) {
-        if (nums[pointer1] != nums[pointer2]) {
-            pointer1++;
-            nums[pointer1] = nums[pointer2];
-            result++;
-        }
-        pointer2++;
-    }
-    return result + 1;
-}
+// int removeDuplicates(vector<int> &nums) {
+//     int result = 0;
+//     int pointer1 = 0;
+//     int pointer2 = 1;
+//     int size = (int) nums.size();
+//     while (pointer2 < size) {
+//         if (nums[pointer1] != nums[pointer2]) {
+//             pointer1++;
+//             nums[pointer1] = nums[pointer2];
+//             result++;
+//         }
+//         pointer2++;
+//     }
+//     return result + 1;
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void reverseforrotate(vector<int> &nums, int start, int end) {
@@ -816,8 +825,9 @@ vector<vector<int> > threeSumwithtwosum(vector<int> &nums) {
     vector<vector<int> > result(resultset.begin(), resultset.end());
     return result;
 }
-vector<vector<int>> triplet(int n, vector<int> &arr) {
-    vector<vector<int>> ans;
+
+vector<vector<int> > triplet(int n, vector<int> &arr) {
+    vector<vector<int> > ans;
     sort(arr.begin(), arr.end());
     for (int i = 0; i < n; i++) {
         //remove duplicates:
@@ -830,11 +840,9 @@ vector<vector<int>> triplet(int n, vector<int> &arr) {
             int sum = arr[i] + arr[j] + arr[k];
             if (sum < 0) {
                 j++;
-            }
-            else if (sum > 0) {
+            } else if (sum > 0) {
                 k--;
-            }
-            else {
+            } else {
                 vector<int> temp = {arr[i], arr[j], arr[k]};
                 ans.push_back(temp);
                 j++;
@@ -865,6 +873,7 @@ int LargestSubarraywith0Sum(vector<int> &arr, int n) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 vector<vector<int> > merge(vector<vector<int> > &intervals) {
     std::sort(intervals.begin(), intervals.end(), [](const std::vector<int> &a, const std::vector<int> &b) {
@@ -882,6 +891,7 @@ vector<vector<int> > merge(vector<vector<int> > &intervals) {
     }
     return intervals;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 vector<int> findTwoElement(vector<int> arr, int n) {
     int repeating = -1;
@@ -893,11 +903,12 @@ vector<int> findTwoElement(vector<int> arr, int n) {
         nn12n16 -= i * i;
     }
     repeating = ((nn12n16 / nn1) + (nn1)) / 2;
-    missing =(( nn12n16 / nn1) - (nn1)) / 2;
+    missing = ((nn12n16 / nn1) - (nn1)) / 2;
     return {
-        missing,repeating
+        missing, repeating
     };
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void insertforinversionCount(vector<long long> &temp, long long num, long long &result, int current) {
     int l = 0;
@@ -923,6 +934,7 @@ long long int inversionCountbinarysearch(long long arr[], int n) {
     }
     return result;
 }
+
 long long inversionCountMultiset(long long arr[], int n) {
     multiset<long long> st;
     long long result = 0;
@@ -948,19 +960,21 @@ int binarysearch(vector<int> &nums, int target) {
     }
     return -1;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int findFloor(vector<long long> v, long long n, long long x) {
     long long l = 0;
-    long long h = n -1;
+    long long h = n - 1;
     long long m;
     while (l <= h) {
         m = (l + h) / 2;
-        if(v[m] == x)return m;
+        if (v[m] == x)return m;
         else if (v[m] < x)l = m + 1;
         else h = m - 1;
     }
     return h;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 vector<int> getFloorAndCeil(int x, const vector<int> &arr) {
@@ -969,7 +983,7 @@ vector<int> getFloorAndCeil(int x, const vector<int> &arr) {
     int floordistance = INT_MAX;
     int ceildistance = INT_MAX;
     for (const int &i: arr) {
-        if(i==x)return {i,i};
+        if (i == x)return {i, i};
         if (i < x && x - i < floordistance) {
             floor = i;
             floordistance = x - i;
@@ -981,19 +995,23 @@ vector<int> getFloorAndCeil(int x, const vector<int> &arr) {
     }
     return {floor, ceil};
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int searchInsert(vector<int> &nums, int target) {
     int l = 0;
-    int h = nums.size()-1;
+    int h = nums.size() - 1;
     int m = (l + h) / 2;
     int result = m;
     while (l <= h) {
         m = (l + h) / 2;
-        if (nums[m] >= target){result = m;h = m - 1;}
-        else if (nums[m] < target)l = m + 1;
+        if (nums[m] >= target) {
+            result = m;
+            h = m - 1;
+        } else if (nums[m] < target)l = m + 1;
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int findstarting(vector<int> arr, int n, int x) {
     int low = 0, high = n - 1;
@@ -1004,9 +1022,8 @@ int findstarting(vector<int> arr, int n, int x) {
             ans = mid;
             high = mid - 1;
         } else if (arr[mid] > x) {
-            high = mid -1;
-        }
-        else {
+            high = mid - 1;
+        } else {
             low = mid + 1;
         }
     }
@@ -1023,9 +1040,8 @@ int findending(vector<int> &arr, int n, int x) {
             ans = mid;
             low = mid + 1;
         } else if (arr[mid] > x) {
-            high = mid -1;
-        }
-        else {
+            high = mid - 1;
+        } else {
             low = mid + 1;
         }
     }
@@ -1040,8 +1056,9 @@ vector<int> searchRange(vector<int> &nums, int target) {
     // else result.push_back(-1);
     // if (b > -1 && nums[b] == target)result.push_back(b);
     // else result.push_back(-1);
-    return {a,b};
+    return {a, b};
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int count(int arr[], int n, int x) {
     // int a = findstarting(arr, n, x); // Uncomment
@@ -1049,6 +1066,7 @@ int count(int arr[], int n, int x) {
     // if (a != -1)return b - a + 1; // Uncomment
     return 0;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool searchinrotatedsortedarray2(vector<int> &nums, int target) {
     int l = 0;
@@ -1063,35 +1081,36 @@ bool searchinrotatedsortedarray2(vector<int> &nums, int target) {
         if (nums[l] < nums[m]) {
             if (nums[l] <= target && target < nums[m])h = m - 1;
             else l = m + 1;
-        } else if (nums[l] > nums[m]){
+        } else if (nums[l] > nums[m]) {
             if (nums[m] < target && target <= nums[h])l = m + 1;
             else h = m - 1;
         } else {
-            for(int i = m;i<h+1;i++) {
-                if(nums[i] == target)return true;
+            for (int i = m; i < h + 1; i++) {
+                if (nums[i] == target)return true;
             }
-            h = m-1;
+            h = m - 1;
         }
     }
     cout << l << " " << m << " " << h << endl;
     return false;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int findMin(vector<int> &nums) {
     int l = 0;
     int size = nums.size();
     int h = size - 1;
     int m = (l + h) / 2;
-    if(h == 0)return nums[0];
-    if(h == 1)return min(nums[0], nums[1]);
+    if (h == 0)return nums[0];
+    if (h == 1)return min(nums[0], nums[1]);
     while (l <= h) {
         m = (l + h) / 2;
         cout << l << " " << m << " " << h << endl;
         if (m > 0 && m < size - 1 && nums[m] < nums[m - 1] && nums[m] < nums[m + 1])return nums[m];
         if (m == 0 && nums[m] < nums[m + 1] && nums[m] < nums[size - 1])return nums[m];
-        if (m == size - 1 && nums[m] < nums[0] && nums[m] < nums[m-1])return nums[m];
-        if(m == l) return min(nums[m], nums[h]);
-        if(m == h) return min(nums[m], nums[l]);
+        if (m == size - 1 && nums[m] < nums[0] && nums[m] < nums[m - 1])return nums[m];
+        if (m == l) return min(nums[m], nums[h]);
+        if (m == h) return min(nums[m], nums[l]);
         if (nums[m] > nums[l] && nums[m] > nums[h]) {
             l = m + 1;
         } else if (nums[m] < nums[l] && nums[m] < nums[h]) {
@@ -1113,20 +1132,21 @@ int singleNonDuplicate(vector<int> &nums) {
     int second;
     while (l <= h) {
         m = (l + h) / 2;
-        if(m == 0) {
-            if(nums[m] != nums[m+1])return nums[m];
+        if (m == 0) {
+            if (nums[m] != nums[m + 1])return nums[m];
         }
-        if(m == nums.size() - 1) {
-            if(nums[m] != nums[m-1])return nums[m];
+        if (m == nums.size() - 1) {
+            if (nums[m] != nums[m - 1])return nums[m];
         }
         if (nums[m] != nums[m - 1] && nums[m] != nums[m + 1])return nums[m];
         if (nums[m] == nums[m - 1])second = m;
-        else if (nums[m] == nums[m+1])second = m+1;
+        else if (nums[m] == nums[m + 1])second = m + 1;
         if (second % 2 == 0)h = m - 1;
         else if (second % 2 == 1)l = m + 1;
     }
     return -1;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 long long int floorSqrt(long long int x) {
     long long l = 0;
@@ -1141,6 +1161,7 @@ long long int floorSqrt(long long int x) {
     }
     return m;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int NthRoot(int n, int m) {
     int l = 0;
@@ -1155,6 +1176,7 @@ int NthRoot(int n, int m) {
     }
     return -1;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 double calculateHours(vector<int> &v, int hourly) {
     double totalH = 0;
@@ -1242,6 +1264,7 @@ int smallestDivisor(vector<int> &nums, int threshold) {
     // cout << low << " " << mid << " " << hig << endl;
     return low;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool willItShip(vector<int> &weights, int days, int capacity) {
@@ -1250,7 +1273,7 @@ bool willItShip(vector<int> &weights, int days, int capacity) {
         copy -= i;
         if (copy < 0) {
             days--;
-            copy = capacity -i ;
+            copy = capacity - i;
         }
     }
     days--;
@@ -1258,10 +1281,10 @@ bool willItShip(vector<int> &weights, int days, int capacity) {
 }
 
 
-int shipWithinDays(vector<int>& weights, int days) {
-    int sum =0;
+int shipWithinDays(vector<int> &weights, int days) {
+    int sum = 0;
     int maxi = INT_MIN;
-    for(int &i:weights) {
+    for (int &i: weights) {
         maxi = max(maxi, i);
         sum += i;
     }
@@ -1279,15 +1302,16 @@ int shipWithinDays(vector<int>& weights, int days) {
     }
     return low;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int findKthPositive(vector<int> &arr, int k) {
     int low = 0;
     int high = arr.size() - 1;
-    while(low<=high) {
+    while (low <= high) {
         int mid = (low + high) / 2;
         int missingNumbersOnTheLeft = arr[mid] - mid - 1;
-        if(missingNumbersOnTheLeft >= k) {
+        if (missingNumbersOnTheLeft >= k) {
             high = mid - 1;
         } else {
             low = mid + 1;
@@ -1295,6 +1319,7 @@ int findKthPositive(vector<int> &arr, int k) {
     }
     return k + high + 1;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool willItWork(int n, int k, int maxgap, vector<int> &stalls) {
     int current = stalls[0];
@@ -1364,8 +1389,9 @@ int findPages(vector<int> &arr, int n, int m) {
     if (flag == false) return -1;
     return low;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int splitArray(vector<int> &arr , int m) {
+int splitArray(vector<int> &arr, int m) {
     int sum = 0;
     int maxi = INT_MIN;
     for (int &i: arr) {
@@ -1379,7 +1405,7 @@ int splitArray(vector<int> &arr , int m) {
     if (m > arr.size())return -1;
     while (low <= hig) {
         mid = (low + hig) / 2;
-        int c = canBookBeAlloted(arr,arr.size(), m, mid);
+        int c = canBookBeAlloted(arr, arr.size(), m, mid);
         if (c == false) {
             low = mid + 1;
         } else {
@@ -1390,9 +1416,9 @@ int splitArray(vector<int> &arr , int m) {
     if (flag == false) return -1;
     return low;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int findLargestMinDistance(vector<int> &arr, int k)
-{
+int findLargestMinDistance(vector<int> &arr, int k) {
     int sum = 0;
     int maxi = INT_MIN;
     for (int &i: arr) {
@@ -1406,7 +1432,7 @@ int findLargestMinDistance(vector<int> &arr, int k)
     if (k > arr.size())return -1;
     while (low <= hig) {
         mid = (low + hig) / 2;
-        int c = canBookBeAlloted(arr,arr.size(), k, mid);
+        int c = canBookBeAlloted(arr, arr.size(), k, mid);
         if (c == false) {
             low = mid + 1;
         } else {
@@ -1417,6 +1443,7 @@ int findLargestMinDistance(vector<int> &arr, int k)
     if (flag == false) return -1;
     return low;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int firstone(vector<int> nums) {
@@ -1447,13 +1474,14 @@ int rowWithMax1s(vector<vector<int> > nums) {
     }
     return res;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int getfirstindex(vector<vector<int> > &matrix, int target) {
     int low = 0;
     int hig = matrix.size() - 1;
-    while(low <= hig) {
-        int mid = (low+ hig)/2;
-        if(matrix[mid][0] > target) {
+    while (low <= hig) {
+        int mid = (low + hig) / 2;
+        if (matrix[mid][0] > target) {
             hig = mid - 1;
         } else {
             low = mid + 1;
@@ -1461,15 +1489,16 @@ int getfirstindex(vector<vector<int> > &matrix, int target) {
     }
     return hig;
 }
+
 bool search2dPurelySortedMatrix(vector<vector<int> > &matrix, int target) {
     int low = 0;
     int hig = matrix[0].size() - 1;
     int row = getfirstindex(matrix, target);
-    if(row == -1)return false;
-    while(low<=hig) {
-        int mid = (low+hig)/2;
-        if(matrix[row][mid] == target)return true;
-        if(matrix[row][mid] > target)hig = mid - 1;
+    if (row == -1)return false;
+    while (low <= hig) {
+        int mid = (low + hig) / 2;
+        if (matrix[row][mid] == target)return true;
+        if (matrix[row][mid] > target)hig = mid - 1;
         else low = mid + 1;
     }
     return false;
@@ -1515,6 +1544,7 @@ string removeOuterParentheses(string s) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 string reverseWords(string s) {
     string result;
@@ -1541,6 +1571,7 @@ string reverseWords(string s) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 string largestOddNumber(string num) {
     int i = (int) num.size() - 1;
@@ -1558,6 +1589,7 @@ string largestOddNumber(string num) {
     }
     return "";
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 string longestCommonPrefix(vector<string> &strs) {
     string result = strs[0];
@@ -1565,15 +1597,16 @@ string longestCommonPrefix(vector<string> &strs) {
     for (string &i: strs) {
         int size = i.size();
         for (int j = 0; j < size; j++) {
-            if(j == resultsize)break;
-            if(i[j] != result[j]) {
-                result = result.substr(0,j);
+            if (j == resultsize)break;
+            if (i[j] != result[j]) {
+                result = result.substr(0, j);
             }
         }
-        result = result.substr(0,size);
+        result = result.substr(0, size);
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool isAnagram(string s, string t) {
     map<int, int> m;
@@ -1590,6 +1623,7 @@ bool isAnagram(string s, string t) {
     }
     return true;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int romanToInt(string s) {
     map<char, int> m;
@@ -1622,8 +1656,8 @@ int myAtoi(string s) {
         if ((i < 48 || i > 57) && innums)break;
         if (!(i < 48 || i > 57)) innums = true;
         if (i == ' ') {
-            if (pos == false && neg == false){}
-            else break;
+            if (pos == false && neg == false) {
+            } else break;
         }
         if (i == '+') {
             if (pos == false && neg == false)pos = true;
@@ -1638,8 +1672,7 @@ int myAtoi(string s) {
         if (i != ' ' && i != '-')result = result * 10 + (int) i - 48;
         if (result > MAX_VALUE && neg == false) {
             result = MAX_VALUE;
-        }
-        else if(result > MAX_VALUE) return MIN_VALUE;
+        } else if (result > MAX_VALUE) return MIN_VALUE;
     }
     if (neg)result *= -1;
     if (result < MIN_VALUE) {
@@ -1649,6 +1682,7 @@ int myAtoi(string s) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Palindrome(string s, int start, int end) {
     for (int index = start; index <= (start + end) / 2; index++) {
@@ -1659,13 +1693,13 @@ bool Palindrome(string s, int start, int end) {
     return true;
 }
 
-string longestPalindrome(const string& s) {
+string longestPalindrome(const string &s) {
     string result;
     int buffer = 0;
-    int n = (int)s.size();
+    int n = (int) s.size();
     if (n == 1)return s;
 
-    for (int i = 0; i < n-1; i++) {
+    for (int i = 0; i < n - 1; i++) {
         for (int j = i; j < n; j++) {
             if (Palindrome(s, i, j) && j - i + 1 > buffer) {
                 buffer = j - i + 1;
@@ -1675,6 +1709,7 @@ string longestPalindrome(const string& s) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int beautySum(string s) {
     int size = s.size();
@@ -1705,6 +1740,7 @@ int getCount(struct Node *head) {
     }
     return result;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void addNode(Node *head, int pos, int data) {
     int c = 0;
@@ -1716,13 +1752,14 @@ void addNode(Node *head, int pos, int data) {
     Node *n = head->next;
     head->next = t;
     // if(t!=nullptr)t->prev = head;
-    if(t!=nullptr)t->next = n;
+    if (t != nullptr)t->next = n;
     // if(n!=nullptr)n->prev = t;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Node *deleteNode(Node *head, int x) {
     Node *t = head;
-    if(x==1)return t->next;
+    if (x == 1)return t->next;
     while (x > 2 && t != nullptr && t->next != nullptr) {
         x--;
         t = t->next;
@@ -1731,11 +1768,12 @@ Node *deleteNode(Node *head, int x) {
         Node *n = t->next->next;
         if (n != nullptr)t->next = n;
         // if (n != nullptr)n->prev = n;
-    } else if(t->next != nullptr){
+    } else if (t->next != nullptr) {
         t->next = nullptr;
     }
     return head;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Node *reverseDLL(Node *head) {
     if (head == nullptr || head->next == nullptr)return head;
@@ -1751,6 +1789,240 @@ Node *reverseDLL(Node *head) {
     // head->next = head->prev;
     // head->prev = nullptr;
     return head;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ListNode *middleNode(ListNode *head) {
+    ListNode *s = head;
+    ListNode *f = head;
+    int count = 0;
+    while (f != nullptr) {
+        if (count != 0)s = s->next;
+        if (f->next != nullptr) {
+            f = f->next->next;
+            count += 2;
+        } else {
+            count += 1;
+            break;
+        }
+    }
+    if (count % 2 == 1)return s;
+    return s->next;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Node *findMiddle(Node *head) {
+    // Initialize the slow pointer to the head.
+    Node *slow = head;
+
+    // Initialize the fast pointer to the head.
+    Node *fast = head;
+
+    // Traverse the linked list using the
+    // Tortoise and Hare algorithm.
+    while (fast != NULL && fast->next != NULL) {
+        // Move slow one step.
+        slow = slow->next;
+        // Move fast two steps.
+        fast = fast->next->next;
+    }
+
+
+    // Return the slow pointer,
+    // which is now at the middle node.
+    return slow;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ListNode *reverseList(ListNode *head) {
+    if (head == nullptr || head->next == nullptr)return head;
+    auto tt = head->next;
+    head->next = nullptr;
+    while (tt->next != nullptr) {
+        auto t = tt->next;
+        tt->next = head;
+        head = tt;
+        tt = t;
+    }
+    tt->next = head;
+    return tt;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool hasCycle(ListNode *head) {
+    if (head == nullptr)return false;
+    ListNode *t = head;
+    while (t->next != nullptr) {
+        if (t->next == head)return true;
+        auto prev = t;
+        t = t->next;
+        prev->next = head;
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int countNodesinLoop(struct Node *head) {
+    auto slow = head;
+    auto fast = head;
+    while (fast != nullptr && fast->next != nullptr && slow != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) {
+            break;
+        }
+    }
+    if (!(fast && fast->next))
+        return 0;
+    int result = 1;
+    while (head != slow) {
+        head = head->next;
+        slow = slow->next;
+    }
+    slow = slow->next;
+    while (head != slow) {
+        slow = slow->next;
+        result++;
+    }
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ListNode *oddEvenList(ListNode *head) {
+    if (head == nullptr || head->next == nullptr)return head;
+    auto t = head->next;
+    auto headcopy = head;
+    auto tcopy = t;
+    while (headcopy->next != nullptr && headcopy->next->next != nullptr) {
+        headcopy->next = tcopy->next;
+        headcopy = headcopy->next;
+        tcopy->next = headcopy->next;
+        tcopy = tcopy->next;
+    }
+    headcopy->next = t;
+    return head;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ListNode *removeNthFromEnd(ListNode *head, int n) {
+    auto t = head;
+    int size = 0;
+    if (t->next == nullptr) {
+        if (n == 1)return nullptr;
+        else return head;
+    }
+    while (t->next != nullptr) {
+        t = t->next;
+        size++;
+    }
+    size -= n + 1;
+    t = head;
+    while (size >= 0) {
+        t = t->next;
+        size--;
+    }
+    // cout << n << " "<< size<<endl;
+    if (size == -2)return head->next;
+    if (t->next && t->next->next) {
+        t->next = t->next->next;
+    } else {
+        t->next = nullptr;
+    }
+    return head;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Node *addOne(Node *head) {
+    // auto rv = reverseLL(head);
+    // auto rvc = rv;
+    // bool flag = false;
+    // while (rvc->next != nullptr) {
+    //     if (rvc->data != 9) {
+    //         rvc->data++;
+    //         flag = true;
+    //         break;
+    //     }
+    //     rvc->data = 0;
+    //     rvc = rvc->next;
+    // }
+    // if (!flag) {
+    //     rvc->next = new Node(1);
+    // }
+    // auto result = reverseLL(rv);
+    // return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+static void deleteAllOccurOfX(struct Node **head_ref, int x) {
+    auto cur = *head_ref;
+    while (cur->val == x) {
+        if (cur->next == nullptr)return;
+        *head_ref = cur->next;
+        cur = *head_ref;
+    }
+    auto prev = cur;
+    while (cur != nullptr) {
+        prev = cur;
+        if (cur->next != nullptr && cur->next->val == x && cur->next->next != nullptr) {
+            cur->next = cur->next->next;
+            cur = cur->next;
+            // cur->prev = prev;
+        } else if (cur->next != nullptr && cur->next->val == x) {
+            cur->next = nullptr;
+        } else {
+            cur = cur->next;
+        }
+    }
+    while (prev->val == x) {
+        // auto cc = prev->prev;
+        // prev->prev = nullptr;
+        // cc->next = nullptr;
+        // prev = cc;
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<pair<int, int> > findPairsWithGivenSum(Node *head, int target) {
+    auto left = head;
+    auto right = head;
+    while (right != nullptr && right->next != nullptr) {
+        right = right->next;
+    }
+    if (right == left)return {};
+    vector<pair<int, int> > result;
+    while (right != left) {
+        if (right->val < left->val)break;
+        if (right->val + left->val == target) {
+            result.push_back({left->val, right->val});
+            left = left->next;
+            // right = right->prev;
+        } else if (right->val + left->val > target) {
+            // right = right->prev;
+        } else {
+            left = left->next;
+        }
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Node *removeDuplicates(struct Node *head) {
+    int currentval = head->val;
+    auto result = head;
+    if (head->next == nullptr)return head;
+    while (head->next && head->next->val == currentval) {
+        head->next = head->next->next;
+        // if (head->next)head->next->prev = head;
+    }
+    if (head->next == nullptr)return head;
+    while (head != nullptr && head->next != nullptr) {
+        currentval = head->val;
+        while (head->next && head->next->val == currentval) {
+            head->next = head->next->next;
+            // if (head->next)head->next->prev = head;
+        }
+        head = head->next;
+    }
+    return result;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ListNode *deleteMiddle(ListNode *head) {
