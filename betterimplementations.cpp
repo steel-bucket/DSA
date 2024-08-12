@@ -1,6 +1,37 @@
 #include "betterimplementations.h"
 #include <bits/stdc++.h>
 using namespace std;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+struct ListNode {
+    int val;
+    ListNode *next;
+
+    ListNode() : val(0), next(nullptr) {
+    }
+
+    ListNode(int x) : val(x), next(nullptr) {
+    }
+
+    ListNode(int x, ListNode *next) : val(x), next(next) {
+    }
+};
+
+struct Node {
+    int val;
+    Node *next;
+
+    Node(int d, Node *n) {
+        val = d;
+        next = n;
+    }
+
+    explicit Node(int d) {
+        val = d;
+        next = nullptr;
+    }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool isNumberPalindromeBetter(int x) {
@@ -866,4 +897,145 @@ int beautySumBetter(string s) {
     return ans;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+ListNode *reverseListRecursive(ListNode *head) {
+    // Base case:
+    // If the linked list is empty or has only one node,
+    // return the head as it is already reversed.
+    if (head == NULL || head->next == NULL) {
+        return head;
+    }
+
+    // Recursive step:
+    // Reverse the linked list starting
+    // from the second node (head->next).
+    ListNode *newHead = reverseListRecursive(head->next);
+
+    // Save a reference to the node following
+    // the current 'head' node.
+    ListNode *front = head->next;
+
+    // Make the 'front' node point to the current
+    // 'head' node in the reversed order.
+    front->next = head;
+
+    // Break the link from the current 'head' node
+    // to the 'front' node to avoid cycles.
+    head->next = NULL;
+
+    // Return the 'newHead,' which is the new
+    // head of the reversed linked list.
+    return newHead;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool detectCycleOrnNot(ListNode *head) {
+    // Initialize two pointers, slow and fast,
+    // to the head of the linked list
+    ListNode *slow = head;
+    ListNode *fast = head;
+
+    // Step 2: Traverse the linked list with
+    // the slow and fast pointers
+    while (fast != nullptr && fast->next != nullptr) {
+        // Move slow one step
+        slow = slow->next;
+        // Move fast two steps
+        fast = fast->next->next;
+
+        // Check if slow and fast pointers meet
+        if (slow == fast) {
+            return true; // Loop detected
+        }
+    }
+
+    // If fast reaches the end of the list,
+    // there is no loop
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+ListNode *detectCycleAndReturnlistNode(ListNode *head) {
+    auto slow = head;
+    auto fast = head;
+    while (fast != nullptr && fast->next != nullptr && slow != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) {
+            break;
+        }
+    }
+    if (!(fast && fast->next))
+        return nullptr;
+    while (head != slow) {
+        head = head->next;
+        slow = slow->next;
+    }
+    return slow;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Node *DeleteNthNodefromEnd(Node *head, int N) {
+    // Create two pointers, fastp and slowp
+    Node *fastp = head;
+    Node *slowp = head;
+
+    // Move the fastp pointer N nodes ahead
+    for (int i = 0; i < N; i++)
+        fastp = fastp->next;
+
+    // If fastp becomes NULL,
+    // the Nth node from the end is the head
+    if (fastp == NULL)
+        return head->next;
+
+    // Move both pointers until fastp reaches the end
+    while (fastp->next != NULL) {
+        fastp = fastp->next;
+        slowp = slowp->next;
+    }
+
+    // Delete the Nth node from the end
+    Node *delNode = slowp->next;
+    slowp->next = slowp->next->next;
+    delete delNode;
+    return head;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+    if (headA == nullptr || headB == nullptr) return nullptr;
+    ListNode *ptr1 = headA;
+    ListNode *ptr2 = headB;
+    while (ptr1 != ptr2) {
+        ptr1 = (ptr1 == nullptr) ? headB : ptr1->next;
+        ptr2 = (ptr2 == nullptr) ? headA : ptr2->next;
+    }
+    return ptr1;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// int helperForadddOne(Node *temp) {
+//     if (temp == NULL) return 1;
+//     int carry = helperForadddOne(temp->next);
+//     temp->data += carry;
+//     if (temp->data < 10) return 0;
+//     temp->data = 0;
+//     return 1;
+// }
+
+// Node *addOne(Node *head) {
+//     int carry = helperForadddOne(head);
+//     if (carry == 1) {
+//         Node *newNode = new Node(1);
+//         newNode->next = head;
+//         head = newNode;
+//     }
+//     return head;
+// }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
