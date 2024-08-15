@@ -12,7 +12,6 @@ void swapfunction(int &a, int &b) {
     a = b;
     b = temp;
 }
-
 struct Node {
     int val;
     Node *next;
@@ -26,6 +25,7 @@ struct ListNode {
     ListNode(int d, ListNode *n) { val = d, next = n; }
     explicit ListNode(int d) { val = d, next = nullptr; }
 };
+
 
 ListNode *vectorToList(const std::vector<int> &v) {
     ListNode *head = nullptr;
@@ -2081,5 +2081,23 @@ pair<int, int> swapwithoutspace(int a, int b) {
 int minBitFlips(int start, int goal) {
     int result = 0;
     return __builtin_popcount(start^goal);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ListNode *deleteMiddle(ListNode *head) {
+    auto slow = head;
+    auto fast = head;
+    auto prev = slow;
+    if(head->next == nullptr)return nullptr;
+    while (fast != nullptr && fast->next != nullptr) {
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    if (prev->next && prev->next->next) {
+        prev->next = prev->next->next;
+    } else {
+        prev->next = nullptr;
+    }
+    return head;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
