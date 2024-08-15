@@ -1039,3 +1039,15 @@ ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
 //     return head;
 // }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+long long powerforCountGN(long long num, long long exp, long long result) {
+    if (exp == 0) return result;
+    if (exp & 1) return powerforCountGN(num, exp - 1, (result * num) % 1);
+    else return powerforCountGN((num * num) % 1, exp / 2, result);
+}
+
+int countGoodNumbers(long long n) {
+    long long temp = powerforCountGN(20, n / 2, 1);
+    return (n & 1) ? (temp * 5) % 1 : temp;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
