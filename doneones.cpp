@@ -2083,6 +2083,79 @@ int minBitFlips(int start, int goal) {
     return __builtin_popcount(start^goal);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<vector<int> > subsets(vector<int> &nums) {
+    vector<vector<int> > result;
+    for (int i = 0; i < pow(2, nums.size()); i++) {
+        int ic = i;
+        int index = 0;
+        vector<int> a;
+        while (ic != 0) {
+            if (ic & 1)a.push_back(nums[index]);
+            index++;
+            ic >>= 1;
+        }
+        result.push_back(a);
+    }
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+vector<int> AllPrimeFactors(int N) {
+    vector<int> result;
+    for (int i = 2; i * i <= N; i++) {
+        if (N % i == 0)result.push_back(i);
+        while (N % i == 0)N /= i;
+    }
+    if(N!=1)result.push_back(N);
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void print_divisors(int n) {
+    vector<int> front;
+    vector<int> back;
+    for (int i = 1; i * i <= n; i++) {
+        if (n % i == 0) {
+            front.push_back(i);
+            if (i != n / i)back.push_back(n / i);
+        }
+    }
+    for (auto i: front)cout << i << " ";
+    for (int j = (int) back.size() - 1; j >= 0; j--) {
+        cout << back[j] << " ";
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int countPrimes(int n) {
+    vector<bool> prime(n + 1, true);
+    int result = 0;
+    for (int i = 2; i * i <= n; i++)if (prime[i])for (int j = i * i; j <= n; j += i)prime[j] = false;
+    for (int p = 2; p <= n; p++)if (prime[p])result++;
+    if(prime[n])result--;
+    return result;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+vector<int> findPrimeFactors(int n) {
+    vector<bool> prime(n + 1, true);
+    vector<int> result;
+    for (int i = 2; i * i <= n; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                prime[j] = false;
+            }
+        }
+    }
+    for (int p = 2; p <= n; p++) {
+        if (prime[p]) {
+            while (n % p == 0) {
+                result.push_back(p);
+                n /= p;
+            }
+        }
+    }
+    return result;
+}
+
 ListNode *deleteMiddle(ListNode *head) {
     auto slow = head;
     auto fast = head;
