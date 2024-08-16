@@ -1051,3 +1051,29 @@ int countGoodNumbers(long long n) {
     return (n & 1) ? (temp * 5) % 1 : temp;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int helperforfindxor(int n) {
+    if (n % 4 == 1) return 1;
+    if (n % 4 == 2) return n + 1;
+    if (n % 4 == 3) return 0;
+    return n;
+}
+
+
+int findXOR(int l, int r) {
+    return helperforfindxor(l - 1) ^ helperforfindxor(r);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+vector<long long int> twoOddNum(const long long int arr[], long long int N) {
+    long s = 0;
+    for (int i = 0; i < N; i++) s = s ^ arr[i];
+    int right = (s & s - 1) ^ s;
+    long long int b1 = 0, b2 = 0;
+    for (int i = 0; i < N; i++) {
+        if (arr[i] & right) b1 ^= arr[i];
+        else b2 ^= arr[i];
+    }
+    if (b1 > b2) return {b1, b2};
+    return {b2, b1};
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
